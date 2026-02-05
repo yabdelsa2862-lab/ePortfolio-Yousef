@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #2F373F;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            border: 1px solid #fff;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ff4b5c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background-color: #e03e4f;
+        }
+    </style>
+</head>
+<body>
+
+<button class="back-button" onclick="window.location.href='./Project.html'">Back</button>
+<canvas id="pong" width="800" height="600"></canvas>
+
+<script>
+// Get the canvas and 2d context
+const canvas = document.getElementById('pong');
+const ctx = canvas.getContext('2d');
+
+// Define the paddle and ball properties
+const paddleWidth = 10, paddleHeight = 100, ballRadius = 10;
+let playerY = (canvas.height - paddleHeight) / 2;
+let opponentY = (canvas.height - paddleHeight) / 2;
+let ballX = canvas.width / 2;
+let ballY = canvas.height / 2;
+let ballSpeedX = 5 * (Math.random() < 0.5 ? 1 : -1);
+let ballSpeedY = 5 * (Math.random() < 0.5 ? 1 : -1);
+let playerSpeed = 0;
+let opponentSpeed = 4;
+let playerScore = 0;
+let opponentScore = 0;
+
+// Draw the paddles and ball
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the player's paddle
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, playerY, paddleWidth, paddleHeight);
+
+    // Draw the opponent's paddle
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(canvas.width - paddleWidth, opponentY, paddleWidth, paddleHeight);
+
+    // Draw the ball
+    ctx.beginPath();
+    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.closePath();
+
+    // Draw the scores
+    ctx.font = '30px Arial';
+    ctx.fillText(playerScore, canvas.width / 4, 50);
+    ctx.fillText(opponentScore, 3 * canvas.width / 4, 50);
+}
+
+// Update the game logic (paddle movement, ball movement, collisions)
+function update() {
+    // Update player paddle position
+    playerY += playerSpeed;
+    if (playerY < 0) playerY = 0;
+    if (playerY + paddleHeight > canvas.height) playerY = canvas.height - paddleHeight;
+
+    // Update opponent paddle position (AI)
+    if (ballY < opponentY + paddleHeight / 2) opponentY -= opponentSpeed;
+    if (ballY > opponentY + paddleHeight / 2) opponentY += opponentSpeed;
+    if (opponentY < 0) opponentY = 0;
+    if (opponentY + paddleHeight > canvas.height) opponentY = canvas.height - paddleHeight;
+
+    // Update ball position
+    ballX += ballSpeedX;
+    ballY += ballSpeedY;
+
+    // Ball collision with top and bottom
+    if (ballY - ballRadius < 0 || ballY + ballRadius > canvas.height) ballSpeedY = -ballSpeedY;
+
+    // Ball collision with paddles
+    if (ballX - ballRadius < paddleWidth && ballY > playerY && ballY < playerY + paddleHeight) {
+        ballSpeedX = -ballSpeedX;
+    }
+
+    if (ballX + ballRadius > canvas.width - paddleWidth && ballY > opponentY && ballY < opponentY + paddleHeight) {
+        ballSpeedX = -ballSpeedX;
+    }
+
+    // Ball out of bounds (score update)
+    if (ballX - ballRadius < 0) {
+        opponentScore++;
+        resetBall();
+    }
+
+    if (ballX + ballRadius > canvas.width) {
+        playerScore++;
+        resetBall();
+    }
+}
+
+// Reset the ball to the center
+function resetBall() {
+    ballX = canvas.width / 2;
+    ballY = canvas.height / 2;
+    ballSpeedX = 5 * (Math.random() < 0.5 ? 1 : -1);
+    ballSpeedY = 5 * (Math.random() < 0.5 ? 1 : -1);
+}
+
+// Handle user input for player paddle
+function keyDownHandler(event) {
+    if (event.key == "ArrowUp") playerSpeed = -8;
+    else if (event.key == "ArrowDown") playerSpeed = 8;
+}
+
+function keyUpHandler(event) {
+    if (event.key == "ArrowUp" || event.key == "ArrowDown") playerSpeed = 0;
+}
+
+// Listen for player input
+document.addEventListener('keydown', keyDownHandler, false);
+document.addEventListener('keyup', keyUpHandler, false);
+
+// Game loop (draw and update)
+function gameLoop() {
+    draw();
+    update();
+    requestAnimationFrame(gameLoop);
+}
+
+// Start the game loop
+gameLoop();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My ePortfolio - About Me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.0/framer-motion.umd.min.js"></script>
+    <script defer src="assets/js/nav-contrast.js"></script>
+    <!-- FontAwesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .blurred {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .blurred::after {
+            content: "Copied!";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s, backdrop-filter 0.5s;
+            backdrop-filter: blur(10px);
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        .blurred.copied::after {
+            opacity: 1;
+            backdrop-filter: blur(0px);
+        }
+        /* White glow shadow for navbar */
+        .white-shadow {
+            box-shadow: 0 10px 40px rgba(255,255,255,0.10), 0 4px 10px rgba(255,255,255,0.06);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center h-full">
+
+    <!-- Navigation Bar -->
+    <nav role="navigation" aria-label="Main" class="fixed w-full top-8 left-0 z-50">
+        <div class="max-w-4xl mx-auto bg-white/6 backdrop-blur-md rounded-2xl p-3 px-6 flex items-center justify-between white-shadow transition-colors duration-300">
+            <a href="./index.html" class="flex items-center gap-3">
+                <img src="images/Logo.png.JPEG" alt="Logo" class="w-15 h-8 rounded" />
+                <span class="font-semibold">Yousef</span>
+            </a>
+
+            <button id="nav-toggle" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" aria-controls="nav-mobile" aria-expanded="false">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+
+            <ul id="nav-desktop" class="hidden md:flex gap-8 items-center">
+                <li><a href="./index.html" class="nav-link text-lg font-medium text-white/90 hover:text-blue-400 transition">Home</a></li>
+                <li><a href="./Project.html" class="nav-link text-lg font-medium text-white/90 hover:text-red-400 transition">Projects</a></li>
+                <li><a href="./html.html" class="nav-link text-lg font-medium text-white/90 hover:text-green-400 transition">Resume</a></li>
+                <li><a href="./Photos.html" class="nav-link text-lg font-medium text-white/90 hover:text-purple-400 transition">Photography</a></li>
+                <li><a href="./about.html" class="nav-link text-lg font-medium text-white/90 hover:text-yellow-400 transition">About</a></li>
+            </ul>
+
+            <div class="hidden md:flex gap-3 items-center">
+                <a href="https://github.com/YousefNazmi-hackathon" class="text-white/80 hover:text-white"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+
+        <!-- mobile -->
+        <div id="nav-mobile" class="md:hidden hidden mt-2 max-w-4xl mx-auto bg-gray-800/80 rounded-xl p-4 shadow-lg">
+            <ul class="flex flex-col gap-2">
+                <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-white/5">Home</a></li>
+                <li><a href="./Project.html" class="block px-3 py-2 rounded hover:bg-white/5">Projects</a></li>
+                <li><a href="./html.html" class="block px-3 py-2 rounded hover:bg-white/5">Resume</a></li>
+                <li><a href="./Photos.html" class="block px-3 py-2 rounded hover:bg-white/5">Photography</a></li>
+                <li><a href="./about.html" class="block px-3 py-2 rounded hover:bg-white/5">About</a></li>
+            </ul>
+        </div>
+    </nav>
+                <span class="absolute left-0 bottom-0 w-0 h-1 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
+            </li>
+        </ul>
+    </nav>
+=======
+<body class="bg-gray-900 text-white flex flex-col items-left h-screen pt-28">
+
+    <!-- Navigation Bar -->
+    <nav role="navigation" aria-label="Main" class="fixed w-full top-8 left-0 z-50">
+        <div class="max-w-4xl mx-auto bg-white/6 backdrop-blur-md rounded-2xl p-3 px-6 flex items-center justify-between white-shadow transition-colors duration-300">
+            <a href="./index.html" class="flex items-center gap-3">
+                <img src="images/Logo.png.JPEG" alt="Logo" class="w-15 h-8 rounded" />
+                <span class="font-semibold">Yousef</span>
+            </a>
+
+            <button id="nav-toggle" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" aria-controls="nav-mobile" aria-expanded="false">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+
+            <ul id="nav-desktop" class="hidden md:flex gap-8 items-center">
+                <li><a href="./index.html" class="nav-link text-lg font-medium text-white/90 hover:text-blue-400 transition">Home</a></li>
+                <li><a href="./Project.html" class="nav-link text-lg font-medium text-white/90 hover:text-red-400 transition">Projects</a></li>
+                <li><a href="./html.html" class="nav-link text-lg font-medium text-white/90 hover:text-green-400 transition">Resume</a></li>
+                <li><a href="./Photos.html" class="nav-link text-lg font-medium text-white/90 hover:text-purple-400 transition">Photography</a></li>
+                <li><a href="./about.html" class="nav-link text-lg font-medium text-white/90 hover:text-yellow-400 transition">About</a></li>
+            </ul>
+
+            <div class="hidden md:flex gap-3 items-center">
+                <a href="https://github.com/YousefNazmi-hackathon" class="text-white/80 hover:text-white"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+
+        <!-- mobile -->
+        <div id="nav-mobile" class="md:hidden hidden mt-2 max-w-4xl mx-auto bg-gray-800/80 rounded-xl p-4 shadow-lg">
+            <ul class="flex flex-col gap-2">
+                <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-white/5">Home</a></li>
+                <li><a href="./Project.html" class="block px-3 py-2 rounded hover:bg-white/5">Projects</a></li>
+                <li><a href="./html.html" class="block px-3 py-2 rounded hover:bg-white/5">Resume</a></li>
+                <li><a href="./Photos.html" class="block px-3 py-2 rounded hover:bg-white/5">Photography</a></li>
+                <li><a href="./about.html" class="block px-3 py-2 rounded hover:bg-white/5">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+>>>>>>> Stashed changes
+
+    
+
+   <!-- About Me Section -->
+    <div class="resume-section mt-10 mb-10">
+        <h2 class="text-center text-white text-4xl font-bold mb-10">About Me</h2>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-10 mt-5">
+            <img class="w-100 h-80 rounded-full border-4 border-gray-700 shadow-lg" src="images/Logo.png.JPEG" alt="An image of me">
+            
+            <!-- Text and QR Code Side by Side -->
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                <p class="text-white text-xl max-w-xl text-center md:text-left">
+                    Hi, I'm Yousef Abdelsalam, a passionate coder and builder. I love turning ideas into reality through code,
+                    whether it's web apps, software, or creative projects. I'm always exploring new technologies and
+                    challenging myself to build things that make an impact.
+                    <br><br>
+                    Let's create something awesome!
+                </p>
+                <!-- Bigger QR Code beside the text -->
+                <img src="your-qrcode-image.png" alt="QR Code" class="w-64 h-68 rounded-lg shadow-lg">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer Section -->
+    <footer class="footer mt-80 w-full bg-gray-800 text-white text-center p-4">
+        <p>&copy; 2025 my ePortfolio. All rights reserved.</p>
+        <div class="footer-links mt-2">
+            <a href="./about.html" class="hover:underline">About</a> |
+            <div class="contact inline-block mx-2 blurred" id="phone-container" onclick="copyPhoneNumber()">
+                <p>
+                    Contact Me:
+                    <span id="phone-number">+1 (905) 865 1777</span>
+                </p>
+            </div>
+            |
+            <a href="https://www.instagram.com/yousef_photography_2862?igsh=MW9hdGVxYTZxdGhmbQ%3D%3D&utm_source=qr" class="hover:underline">Social Media</a>
+        </div>
+    </footer>
+
+    <script>
+        function copyPhoneNumber() {
+            const phoneElement = document.getElementById("phone-container");
+            const phoneNumber = document.getElementById("phone-number").innerText;
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                phoneElement.classList.add("copied");
+                setTimeout(() => phoneElement.classList.remove("copied"), 2000);
+            });
+        }
+
+        // Update the icon based on the current page
+        window.onload = function() {
+            const iconContainer = document.getElementById("icon-container");
+            const currentPage = window.location.pathname;
+            if (!iconContainer) return;
+
+            // Display About Me icon for About Me page
+            if (currentPage.includes("index.html")) {
+                iconContainer.innerHTML = '<i class="fas fa-home text-4xl"></i>'; // Home icon
+            } else if (currentPage.includes("Project.html")) {
+                iconContainer.innerHTML = '<i class="fas fa-cogs text-4xl"></i>'; // Project icon
+            } else if (currentPage.includes("html.html")) {
+                iconContainer.innerHTML = '<i class="fas fa-file-alt text-4xl"></i>'; // Resume icon
+            } else if (currentPage.includes("Photos.html")) {
+                iconContainer.innerHTML = '<i class="fas fa-camera text-4xl"></i>'; // Photography icon
+            } else if (currentPage.includes("about.html")) {
+                iconContainer.innerHTML = '<i class="fas fa-user text-4xl"></i>'; // About icon
+            }
+        };
+    </script>
+</body>
+</html>
