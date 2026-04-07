@@ -21,9 +21,10 @@
         body::before {
             content: '';
             position: fixed; inset: 0;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+            background-image: url("data:image/svg+xml,%3Csvg width='36' height='36' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='rgba(255%2C255%2C255%2C0.055)'/%3E%3C/svg%3E");
             background-size: 36px 36px;
             pointer-events: none; z-index: 0;
+            will-change: auto;
         }
         body::after {
             content: '';
@@ -47,7 +48,6 @@
         .glass-card:hover {
             background: rgba(255,255,255,0.065);
             border-color: rgba(59,130,246,0.3);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
         }
         .grad-text {
             background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
@@ -98,9 +98,10 @@
         .anim-3 { animation: fadeUp 0.8s ease-out 0.5s both; }
         .reveal {
             opacity: 0; transform: translateY(28px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            will-change: opacity, transform;
         }
-        .reveal.visible { opacity: 1; transform: none; }
+        .reveal.visible { opacity: 1; transform: none; will-change: auto; }
         .nav-active { color: #60a5fa !important; }
         .blurred { position: relative; display: inline-block; cursor: pointer; }
         .blurred::after {

@@ -21,9 +21,10 @@
         body::before {
             content: '';
             position: fixed; inset: 0;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+            background-image: url("data:image/svg+xml,%3Csvg width='36' height='36' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='rgba(255%2C255%2C255%2C0.055)'/%3E%3C/svg%3E");
             background-size: 36px 36px;
             pointer-events: none; z-index: 0;
+            will-change: auto;
         }
         body::after {
             content: '';
@@ -37,8 +38,9 @@
         .nav-glass {
             background: rgba(5,11,24,0.85);
             border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transform: translateZ(0);
         }
         .glass-card {
             background: rgba(255,255,255,0.04);
@@ -94,9 +96,10 @@
         .float  { animation: floatY 5s ease-in-out infinite; }
         .reveal {
             opacity: 0; transform: translateY(28px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            will-change: opacity, transform;
         }
-        .reveal.visible { opacity: 1; transform: none; }
+        .reveal.visible { opacity: 1; transform: none; will-change: auto; }
         .nav-active { color: #60a5fa !important; }
         .blurred { position: relative; display: inline-block; cursor: pointer; }
         .blurred::after {
@@ -184,7 +187,7 @@
                     </div>
                     <div class="p-5">
                         <h2 class="text-lg font-bold mb-0.5">Yousef Abdelsalam</h2>
-                        <p class="mono text-blue-400 text-xs mb-4">CS Student @ Brock University</p>
+                        <p class="mono text-blue-400 text-xs mb-4">Developer &amp; Builder</p>
                         <div class="flex flex-col gap-2 text-sm text-white/60">
                             <div class="flex items-center gap-2">
                                 <i class="fas fa-map-marker-alt text-blue-400 w-4"></i>
