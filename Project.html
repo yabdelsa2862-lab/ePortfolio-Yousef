@@ -3,373 +3,543 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My ePortfolio</title>
+    <title>Projects | Yousef Abdelsalam</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.0/framer-motion.umd.min.js"></script>
-    <script defer src="assets/js/nav-contrast.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        .blurred {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050b18;
+            color: #fff;
+            overflow-x: hidden;
         }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+            background-size: 36px 36px;
+            pointer-events: none; z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 10% 30%, rgba(59,130,246,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 90% 80%, rgba(139,92,246,0.07) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .nav-glass {
+            background: rgba(5,11,24,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+        }
+        .glass-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255,255,255,0.065);
+            border-color: rgba(59,130,246,0.3);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+        }
+        .grad-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-blue {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            transition: all 0.3s;
+        }
+        .btn-blue:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
+        .btn-green {
+            background: rgba(34,197,94,0.15);
+            border: 1px solid rgba(34,197,94,0.3);
+            color: #86efac;
+            transition: all 0.3s;
+        }
+        .btn-green:hover { background: rgba(34,197,94,0.25); transform: translateY(-2px); }
+        .btn-white {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.14);
+            transition: all 0.3s;
+        }
+        .btn-white:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+        .btn-red {
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5;
+            transition: all 0.3s;
+        }
+        .tech-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.2);
+            color: #93c5fd;
+            white-space: nowrap;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .anim-1 { animation: fadeUp 0.8s ease-out 0.1s both; }
+        .anim-2 { animation: fadeUp 0.8s ease-out 0.3s both; }
+        .anim-3 { animation: fadeUp 0.8s ease-out 0.5s both; }
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+        .nav-active { color: #60a5fa !important; }
+        .blurred { position: relative; display: inline-block; cursor: pointer; }
         .blurred::after {
-            content: "Copied!";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            opacity: 0;
-            transition: opacity 0.5s, backdrop-filter 0.5s;
-            backdrop-filter: blur(10px);
-            top: 0;
-            left: 0;
-            z-index: 10;
+            content: "Copied!"; position: absolute; inset: 0;
+            background: rgba(0,0,0,0.85); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; opacity: 0; transition: opacity 0.4s; z-index: 10;
         }
-        .blurred.copied::after {
-            opacity: 1;
-            backdrop-filter: blur(0px);
+        .blurred.copied::after { opacity: 1; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050b18; }
+        ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.4); border-radius: 3px; }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: #60a5fa;
         }
-
-        /* White glow shadow for navbar */
-        .white-shadow {
-            box-shadow: 0 10px 40px rgba(255,255,255,0.10), 0 4px 10px rgba(255,255,255,0.06);
+        .glow-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(96,165,250,0.5), transparent); }
+        /* Year badge */
+        .year-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-weight: 600;
         }
-        /* Animation for smooth transitions */
-        .fade-in {
-            animation: fadeIn 1.5s ease-out;
+        .year-11 {
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.3);
+            color: #93c5fd;
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .year-12 {
+            background: rgba(139,92,246,0.12);
+            border: 1px solid rgba(139,92,246,0.3);
+            color: #c4b5fd;
         }
+        /* Project card image */
+        .proj-img {
+            width: 100%; height: 180px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .proj-img-wrap:hover .proj-img { transform: scale(1.04); }
     </style>
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-left h-screen pt-28">
+<body class="relative min-h-screen flex flex-col">
 
-    <!-- Navigation Bar -->
-    <nav role="navigation" aria-label="Main" class="fixed w-full top-8 left-0 z-50">
-        <div class="max-w-4xl mx-auto bg-white/6 backdrop-blur-md rounded-2xl p-3 px-6 flex items-center justify-between white-shadow transition-colors duration-300">
-            <a href="./index.html" class="flex items-center gap-3">
-                <img src="images/Logo.png.JPEG" alt="Logo" class="w-15 h-8 rounded" />
-                <span class="font-semibold">Yousef</span>
-            </a>
-
-            <button id="nav-toggle" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" aria-controls="nav-mobile" aria-expanded="false">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+    <!-- NAV -->
+    <nav class="fixed w-full top-0 left-0 z-50 px-4 pt-4 pb-2">
+        <div class="max-w-5xl mx-auto nav-glass rounded-2xl px-6 py-3 flex items-center justify-between">
+            <a href="./index.html" class="mono text-lg font-bold grad-text">&lt;YA/&gt;</a>
+            <button id="nav-toggle" class="md:hidden p-2 text-white/70 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
             </button>
-
-            <ul id="nav-desktop" class="hidden md:flex gap-8 items-center">
-                <li><a href="./index.html" class="nav-link text-lg font-medium text-white/90 hover:text-blue-400 transition">Home</a></li>
-                <li><a href="./Project.html" class="nav-link text-lg font-medium text-white/90 hover:text-red-400 transition">Projects</a></li>
-                <li><a href="./html.html" class="nav-link text-lg font-medium text-white/90 hover:text-green-400 transition">Resume</a></li>
-                <li><a href="./Photos.html" class="nav-link text-lg font-medium text-white/90 hover:text-purple-400 transition">Photography</a></li>
-                <li><a href="./about.html" class="nav-link text-lg font-medium text-white/90 hover:text-yellow-400 transition">About</a></li>
+            <ul class="hidden md:flex gap-7 items-center">
+                <li><a href="./index.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Photography</a></li>
             </ul>
-
-            <div class="hidden md:flex gap-3 items-center">
-                <a href="https://github.com/YousefNazmi-hackathon" class="text-white/80 hover:text-white"><i class="fab fa-github"></i></a>
+            <div class="hidden md:flex gap-4">
+                <a href="https://github.com/YousefNazmi-hackathon" target="_blank" class="text-white/50 hover:text-white transition text-lg"><i class="fab fa-github"></i></a>
             </div>
         </div>
-
-        <!-- mobile -->
-        <div id="nav-mobile" class="md:hidden hidden mt-2 max-w-4xl mx-auto bg-gray-800/80 rounded-xl p-4 shadow-lg">
-            <ul class="flex flex-col gap-2">
-                <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-white/5">Home</a></li>
-                <li><a href="./Project.html" class="block px-3 py-2 rounded hover:bg-white/5">Projects</a></li>
-                <li><a href="./html.html" class="block px-3 py-2 rounded hover:bg-white/5">Resume</a></li>
-                <li><a href="./Photos.html" class="block px-3 py-2 rounded hover:bg-white/5">Photography</a></li>
-                <li><a href="./about.html" class="block px-3 py-2 rounded hover:bg-white/5">About</a></li>
+        <div id="nav-mobile" class="hidden md:hidden mt-2 max-w-5xl mx-auto nav-glass rounded-xl p-4">
+            <ul class="flex flex-col gap-1">
+                <li><a href="./index.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Photography</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Sidebar with Icon (Top Left) -->
-    
+    <!-- HEADER -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 pt-36 pb-12">
+        <p class="section-label mb-4 anim-1">// My Work</p>
+        <h1 class="text-5xl md:text-6xl font-black mb-4 anim-2">
+            <span class="grad-text">Projects</span>
+        </h1>
+        <p class="text-white/55 text-lg max-w-xl anim-3">
+            A collection of everything I've built — games, AI experiments, mobile apps, and web projects from Grade 11 &amp; 12.
+        </p>
+    </section>
 
-    <!-- Projects Section: split into Grade 11 (left) and Grade 12 (right) -->
-    <div class="mt-20 px-4 w-full max-w-6xl mx-auto mb-10">
-        <div class="flex flex-col md:flex-row gap-8">
-            <!-- Left column: Grade 11 -->
-            <div class="md:w-110 flex flex-col gap-6">
-                <h2 class="text-2xl font-semibold text-white/90">GRADE 11</h2>
-
-                <!-- Pong Game -->
-                <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full flex items-center gap-8">
-                    <div>
-                        <h3 class="text-white text-2xl font-semibold mb-4">Pong Game</h3>
-                        <p class="text-white mb-4">
-                            I created a Pong game using HTML5, CSS, and JavaScript. I had to change it to HTML5, CSS, and JavaScript because pygame isn't supported in web browsers. You can play it directly in your browser. It's a fun and simple game to showcase my web development skills.
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="./pong.html" class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600 shadow-lg hover:shadow-2xl">Play</a>
-                            <a href="https://github.com/YousefNazmi-hackathon/Pong/releases/download/python/PONG.PYTHON.7z" download class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-600 shadow-lg hover:shadow-2xl" onclick="showDownloadMessage(event)">Download</a>
-                        </div>
-                    </div>
-                    <div class="bg-gray-700 p-4 rounded-lg shadow-md">
-                        <img src="./images/pong.png" alt="Pong Game" class="w-full rounded-lg">
-                    </div>
-                </div>
-
-                <!-- AI Snake -->
-                <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full relative overflow-hidden group">
-                    <img src="./images/ai.gif" alt="AI Snake Playing" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-opacity duration-300 group-hover:opacity-100 z-0" />
-                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md z-10"></div>
-                    <div class="relative z-20 flex flex-col md:flex-row items-center gap-8">
-                        <div class="flex-1">
-                            <h3 class="text-white text-2xl font-semibold mb-4">AI Snake</h3>
-                            <p class="text-white mb-4">An AI that plays the classic Snake game! Implemented using Python and machine learning techniques. Watch it in action!</p>
-                            <a href="https://github.com/YousefNazmi-hackathon/Ai-Snake/releases/download/Ai_Snake/SnakeAI.7z" download class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-600 shadow-lg hover:shadow-2xl" onclick="showDownloadMessage(event)">Download</a>
-                        </div>
-                        <div class="bg-gray-700 p-3 rounded-lg shadow-md w-[150px] h-[90px]"><img src="./images/ai.png" alt="AI Snake Static" class="w-full h-full object-cover rounded-lg" /></div>
-                    </div>
-                </div>
-
-                <!-- Flappy Bird -->
-                <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full flex items-center gap-8">
-                    <div>
-                        <h3 class="text-white text-2xl font-semibold mb-4">Flappy Bird</h3>
-                        <p class="text-white mb-4">Download my Flappy Bird project and play it on your computer! This game was created using Python and Pygame.</p>
-                        <a href="FlappyBird.7z" onclick="showDownloadMessage(event)" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-600 shadow-lg hover:shadow-2xl download-btn">Download</a>
-                    </div>
-                    <div class="bg-gray-700 p-4 rounded-lg shadow-md"><img src="./images/flappy-bird.jpg" alt="Flappy Bird" class="w-full rounded-lg"></div>
-                </div>
-
-                <!-- Moved from Grade 12: Careers Affected by AI -->
-                <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full flex items-center gap-8 group relative overflow-hidden">
-                    <div>
-                        <h3 class="text-white text-2xl font-semibold mb-4">Careers Affected by AI</h3>
-                        <p class="text-white mb-4">A PowerPoint presentation exploring various career paths impacted by Artificial Intelligence. Hover to preview slides!</p>
-                        <a href="./assets/Careers.pptx" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-600 shadow-lg hover:shadow-2xl" onclick="showDownloadMessage(event)">Download PPTX</a>
-                    </div>
-                    <div class="bg-gray-700 p-4 rounded-lg shadow-md relative overflow-hidden">
-                        <img src="./images/ai-careers.png" alt="AI Careers Presentation" class="w-full rounded-lg transition-opacity duration-300 group-hover:opacity-0">
-                        <video src="./assets/Careers.mp4" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></video>
-                    </div>
-                </div>
-
-                <!-- Moved from Grade 12: Bowling Game (Unity) -->
-                <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full flex items-center gap-8">
-                    <div>
-                        <h3 class="text-white text-2xl font-semibold mb-4">Bowling Game (Unity)</h3>
-                        <p class="text-white mb-4">I created a Bowling game in Unity! You can play it right in your browser below, or download the standalone build to play on your computer.</p>
-                        <div class="flex gap-4">
-                            <a href="Bowling.zip" download class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-600 shadow-lg hover:shadow-2xl download-btn" onclick="showBowlingDownloadMessage(event)">Download Bowling</a>
-                        </div>
-                        <div id="bowling-downloads-overlay" class="hidden absolute left-0 top-0 w-full h-full flex items-start justify-end pointer-events-none z-10">
-                            <div class="flex flex-col items-center mt-2 mr-2"><span class="text-white text-xl font-semibold">Check your downloads</span><span style="font-size:2.5rem;line-height:1;">&#8593;</span></div>
-                        </div>
-                    </div>
-                    <div class="bg-gray-700 p-4 rounded-lg shadow-md"><img src="./images/bowling.png" alt="Bowling Game" class="w-full rounded-lg"></div>
-                </div>
-
-                <!-- Moved from Grade 12: Unity Game Project Card -->
-                <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full flex flex-col md:flex-row items-center gap-8 fade-in">
-                    <div class="flex-1">
-                        <h3 class="text-2xl font-bold mb-2">Unity Game (BETA)</h3>
-                        <p class="mb-4">A fun Unity game made by me! Play it in your browser or download to play offline.</p>
-                        <div class="flex gap-4">
-                            <a href="UnityGame.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition">Play Now</a>
-                            <a href="SpaceShooter.7z" download class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition" onclick="showDownloadMessage(event)">Download</a>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center"><img src="images/unity-logo.png" alt="Unity Game" class="w-32 h-32 object-contain rounded-lg bg-gray-700 p-2 mb-2"><img src="images/MainMenu.png" alt="Unity Game Main Menu" class="w-32 h-32 object-contain rounded-lg bg-gray-700 p-2 mt-2"></div>
-                </div>
-            </div>
-
-            <!-- Right column: Grade 12 -->
-            <div class="md:w-90 flex flex-col gap-6">
-                <h2 class="text-2xl font-semibold text-white/90">GRADE 12</h2>
-                    <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full flex items-center gap-8">
-                    <div>
-                        <h3 class="text-white text-2xl font-semibold mb-4">Fashionista</h3>
-                        <p class="text-white mb-4">
-                            Fashionista is an innovative iOS application that integrates CoreML for real-time garment recognition with a locally hosted Gemma 2-2B LLM to provide personalized style coaching. By utilizing the MediaPipe Tasks GenAI framework, the app performs high-fidelity fashion analysis and generates "Designer Critiques" entirely on-device. This architecture ensures complete user privacy and offline functionality while delivering a sophisticated, trendy user experience.
-                        </p>
-                        <div class="flex gap-1">
-                             <a href="https://github.com/YousefNazmi-hackathon/Fashionista---Official" class="bg-white text-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600 shadow-lg hover:shadow-2xl">Repository</a>
-                            <a href="https://github.com/YousefNazmi-hackathon/Fashionista---Official/archive/refs/heads/main.zip" download class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-600 shadow-lg hover:shadow-2xl" onclick="showDownloadMessageMac(event)">Download</a>
-                            <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-600 shadow-lg hover:shadow-2xl">MAC REQUIRED</a>
-                        </div>
-                    </div>
-                    <div class="bg-gray-700 p-2.5 rounded-lg shadow-md">
-                        <img src="./images/Fashionista.JPEG" alt="Fashionista App" class="w-[1000px] h-[290px] rounded-lg">
-                    </div>
-                </div>
-
-                <!-- Mario -->
-                <div class="project-item bg-gray-800 p-6 rounded-xl shadow-lg w-full flex items-center gap-8">
-                    <div class="flex-1">
-                        <h3 class="text-white text-2xl font-semibold mb-4">Mario</h3>
-                        <p class="text-white mb-4">A Mario-inspired game built with Python! Recreating the classic platformer experience with custom levels, movement mechanics, and enemies.</p>
-                        <div class="flex gap-4">
-                            <a href="https://github.com/yabdelsa2862-lab/Mario" target="_blank" class="bg-white text-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-200 shadow-lg hover:shadow-2xl">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                                Repository
-                            </a>
-                        </div>
-                    </div>
-                    <div class="bg-gray-700 p-4 rounded-lg shadow-md flex items-center justify-center w-28 h-28 flex-shrink-0">
-                        <svg class="w-16 h-16 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                </div>
-
-            </div>
+    <!-- ════════════════ GRADE 11 ════════════════ -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 pb-16">
+        <div class="glow-line mb-12 reveal"></div>
+        <div class="flex items-center gap-3 mb-8 reveal">
+            <span class="year-badge year-11">Grade 11</span>
+            <h2 class="text-2xl font-bold text-white/90">First-Year Projects</h2>
         </div>
-    </div>
 
-    <!-- Overlay and Message -->
-    <div id="download-overlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md hidden z-50 transition-opacity duration-500 opacity-0">
-        <div class="absolute top-5 right-5 text-center text-white">
-            <p class="text-2xl mb-4">Check your downloads</p>
-            <div class="relative">
-                <!-- Arrow pointing to the top-right -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <!-- Pong Game -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.05s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900">
+                    <img src="./images/pong.png" alt="Pong Game" class="proj-img">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Pong Game</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A classic Pong game rebuilt in HTML5, CSS, and JavaScript so it runs directly in the browser.
+                        Showcases DOM manipulation, canvas rendering, and game loop logic.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">HTML5</span>
+                        <span class="tech-badge">CSS</span>
+                        <span class="tech-badge">JavaScript</span>
+                        <span class="tech-badge">Canvas API</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="./pong.html" class="btn-blue text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fas fa-play"></i> Play Now
+                        </a>
+                        <a href="https://github.com/YousefNazmi-hackathon/Pong/releases/download/python/PONG.PYTHON.7z"
+                           download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Snake -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.1s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900 relative">
+                    <img src="./images/ai.gif" alt="AI Snake" class="proj-img">
+                    <div class="absolute top-3 right-3">
+                        <span class="mono text-xs px-2 py-1 rounded-md bg-black/60 border border-white/10 text-green-400">AI / ML</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">AI Snake</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        An AI agent that teaches itself to play Snake using machine learning and reinforcement learning
+                        techniques. Watch it improve over time — implemented entirely in Python.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">Machine Learning</span>
+                        <span class="tech-badge">Reinforcement Learning</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="https://github.com/YousefNazmi-hackathon/Ai-Snake/releases/download/Ai_Snake/SnakeAI.7z"
+                           download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flappy Bird -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.15s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900">
+                    <img src="./images/flappy-bird.jpg" alt="Flappy Bird" class="proj-img">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Flappy Bird</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A faithful recreation of Flappy Bird using Python and Pygame. Features sprite animations,
+                        collision detection, and a scoring system. Download and run locally.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">Pygame</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="FlappyBird.7z" class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Careers Affected by AI -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal group" style="transition-delay:0.2s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900 relative">
+                    <img src="./images/ai-careers.png" alt="AI Careers Presentation"
+                         class="proj-img transition-opacity duration-300 group-hover:opacity-0">
+                    <video src="./assets/Careers.mp4" autoplay muted loop playsinline
+                           class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"></video>
+                    <div class="absolute bottom-3 left-3">
+                        <span class="mono text-xs px-2 py-1 rounded-md bg-black/70 border border-white/10 text-orange-300">Hover to preview</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Careers Affected by AI</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A research-backed PowerPoint presentation exploring how Artificial Intelligence is transforming
+                        various career paths — from automation to augmentation.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Research</span>
+                        <span class="tech-badge">PowerPoint</span>
+                        <span class="tech-badge">AI / ML</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="./assets/Careers.pptx" class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download PPTX
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bowling Game -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.25s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900">
+                    <img src="./images/bowling.png" alt="Bowling Game" class="proj-img">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Bowling Game <span class="text-white/40 text-base font-normal">(Unity)</span></h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A fully functional 3D Bowling game built in Unity. Features realistic physics, pin collisions,
+                        and a complete scoring system. Download and play on Windows.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Unity</span>
+                        <span class="tech-badge">C#</span>
+                        <span class="tech-badge">3D Physics</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="Bowling.zip" download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unity Game (BETA) -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.3s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900 flex items-center justify-center bg-gradient-to-br from-gray-900 to-blue-950">
+                    <div class="flex flex-col items-center gap-3 py-8">
+                        <img src="images/MainMenu.png" alt="Unity Game Menu" class="h-28 object-contain rounded-lg">
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">
+                        Unity Game <span class="mono text-blue-400 text-xs px-2 py-0.5 rounded-md bg-blue-400/10 border border-blue-400/25 ml-1">BETA</span>
+                    </h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A custom Unity game available to play directly in the browser via WebAssembly, or download
+                        as a standalone build. Built with WASD controls, jump, and restart mechanics.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Unity</span>
+                        <span class="tech-badge">C#</span>
+                        <span class="tech-badge">WebAssembly</span>
+                    </div>
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="UnityGame.html" class="btn-blue text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fas fa-play"></i> Play in Browser
+                        </a>
+                        <a href="SpaceShooter.7z" download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ════════════════ GRADE 12 ════════════════ -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 pb-24">
+        <div class="glow-line mb-12 reveal"></div>
+        <div class="flex items-center gap-3 mb-8 reveal">
+            <span class="year-badge year-12">Grade 12</span>
+            <h2 class="text-2xl font-bold text-white/90">Advanced Projects</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <!-- Fashionista -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.05s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900">
+                    <img src="./images/Fashionista.JPEG" alt="Fashionista iOS App"
+                         class="w-full h-48 object-cover transition-transform duration-400">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold">Fashionista</h3>
+                        <span class="btn-red text-xs px-3 py-1 rounded-lg font-semibold">Mac Required</span>
+                    </div>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        An innovative iOS app integrating CoreML for real-time garment recognition with a locally
+                        hosted Gemma 2-2B LLM to provide personalized style coaching — all on-device for full privacy.
+                        Built with the MediaPipe Tasks GenAI framework.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Swift</span>
+                        <span class="tech-badge">iOS</span>
+                        <span class="tech-badge">CoreML</span>
+                        <span class="tech-badge">Gemma 2 LLM</span>
+                        <span class="tech-badge">MediaPipe</span>
+                        <span class="tech-badge">On-Device AI</span>
+                    </div>
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="https://github.com/YousefNazmi-hackathon/Fashionista---Official" target="_blank"
+                           class="btn-white text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fab fa-github"></i> Repository
+                        </a>
+                        <a href="https://github.com/YousefNazmi-hackathon/Fashionista---Official/archive/refs/heads/main.zip"
+                           download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownloadMac(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mario -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.1s">
+                <div class="overflow-hidden bg-gradient-to-br from-blue-950 to-gray-900 flex items-center justify-center h-48">
+                    <div class="flex flex-col items-center gap-3 text-center">
+                        <div class="w-20 h-20 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center">
+                            <i class="fas fa-gamepad text-red-400 text-3xl"></i>
+                        </div>
+                        <p class="mono text-red-400 text-xs">Python Platformer</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Mario</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A Mario-inspired platformer game built with Python. Recreating the classic experience with
+                        custom levels, smooth movement mechanics, enemies, and collision detection — pure Python game dev.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">Pygame</span>
+                        <span class="tech-badge">Game Design</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="https://github.com/yabdelsa2862-lab/Mario" target="_blank"
+                           class="btn-white text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fab fa-github"></i> Repository
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Download Overlay -->
+    <div id="download-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 transition-opacity duration-500 opacity-0">
+        <div class="absolute top-6 right-6 text-center text-white">
+            <div class="glass-card rounded-2xl p-5 flex flex-col items-center gap-3 border border-white/15">
+                <svg class="w-8 h-8 text-blue-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
                 </svg>
+                <p class="font-semibold">Check your downloads!</p>
             </div>
-        </div>
-    </div>
-        <div id="mac-download-overlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md hidden z-50 transition-opacity duration-500 opacity-0">
-        <div class="absolute top-[550px] right-[0px] text-left text-white p-6">
-            <div class="Flex items-center gap-4">
-                <!-- Arrow pointing to the top-right -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white animate-bounce transform rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-            </div>
-             <p class="text-2xl mb-4" style="color: red;">MAC REQUIRED</p>
-             <p class="text-2xl mb-4">Check your downloads</p>
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="footer mt-auto w-full bg-gray-800 text-white text-center p-4">
-        <p>&copy; 2025 my ePortfolio. All rights reserved.</p>
-        <div class="footer-links mt-2">
-            <a href="./about.html" class="hover:underline">About</a> |
-            <div class="contact inline-block mx-2 blurred" id="phone-container" onclick="copyPhoneNumber()">
-                <p>
-                    Contact Me:
-                    <span id="phone-number">+1 (905) 865 1777</span>
-                </p>
+    <!-- Mac Download Overlay -->
+    <div id="mac-download-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 transition-opacity duration-500 opacity-0">
+        <div class="absolute top-6 right-6 text-white">
+            <div class="glass-card rounded-2xl p-5 flex flex-col gap-3 border border-red-500/25">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-apple text-white text-xl"></i>
+                    <span class="font-bold text-red-400">Mac Required</span>
+                </div>
+                <p class="text-sm text-white/70">This project requires macOS to run (Xcode + iOS Simulator).</p>
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-blue-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                    </svg>
+                    <p class="text-sm">Check your downloads</p>
+                </div>
             </div>
-            |
-            <a href="https://www.instagram.com/yousef_photography_2862?igsh=MW9hdGVxYTZxdGhmbQ%3D%3D&utm_source=qr" class="hover:underline">Social Media</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 w-full border-t border-white/5 py-8 px-6 mt-auto">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="mono text-white/30 text-sm">&lt;YA/&gt; &copy; 2025 Yousef Abdelsalam</div>
+            <div class="flex flex-wrap gap-6 text-sm text-white/45 justify-center">
+                <a href="./index.html"   class="hover:text-white transition">Home</a>
+                <a href="./about.html"   class="hover:text-white transition">About</a>
+                <a href="./html.html"    class="hover:text-white transition">Resume</a>
+                <a href="./Photos.html"  class="hover:text-white transition">Photography</a>
+                <a href="https://github.com/YousefNazmi-hackathon" target="_blank" class="hover:text-white transition">GitHub</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        function copyPhoneNumber() {
-            const phoneElement = document.getElementById("phone-container");
-            const phoneNumber = document.getElementById("phone-number").innerText;
-            navigator.clipboard.writeText(phoneNumber).then(() => {
-                phoneElement.classList.add("copied");
-                setTimeout(() => phoneElement.classList.remove("copied"), 2000);
-            });
-        }
+        // Nav
+        const toggle = document.getElementById('nav-toggle');
+        const mobile = document.getElementById('nav-mobile');
+        if (toggle) toggle.addEventListener('click', () => mobile.classList.toggle('hidden'));
+        const path = window.location.pathname;
+        document.querySelectorAll('.nav-link').forEach(a => {
+            const href = a.getAttribute('href').replace('./', '');
+            if (path.endsWith(href)) a.classList.add('nav-active', 'font-semibold');
+        });
 
-        // Update the icon based on the current page
-        window.onload = function() {
-            const iconContainer = document.getElementById("icon-container");
-            const currentPage = window.location.pathname;
-            if (!iconContainer) return;
+        // Reveal
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-            if (currentPage.includes("index.html")) {
-                iconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3" /></svg>`; // Home icon
-            } else if (currentPage.includes("Project.html")) {
-                iconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M14 2h7v7m-1-7l-14 14m0-7h7v7" /></svg>`; // Project icon
-            } else if (currentPage.includes("Photos.html")) {
-                iconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15l-5-5L5 19" /></svg>`; // Camera icon
-            } else if (currentPage.includes("about.html")) {
-                iconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3-3m3 3l3-3M5 20h14" /></svg>`; // About icon
-            }
-        };
-
-        function showDownloadMessage(event) {
-            event.preventDefault(); // Prevent default link behavior
-
-            // Trigger the download first
-            const link = event.target;
-            const href = link.getAttribute("href");
-            const a = document.createElement("a");
-            a.href = href;
-            a.download = "";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            // Show the blur overlay with animation
-            const overlay = document.getElementById("download-overlay");
-            overlay.classList.remove("hidden");
-            setTimeout(() => {
-                overlay.classList.add("opacity-100");
-            }, 10); // Small delay to trigger the CSS transition
-
-            // Hide the overlay after 5 seconds
-            setTimeout(() => {
-                overlay.classList.remove("opacity-100");
-                setTimeout(() => {
-                    overlay.classList.add("hidden");
-                }, 500); // Wait for the fade-out animation to complete
-            }, 5000);
-        }
-
-        function showDownloadMessageMac(event) {
-            event.preventDefault(); // Prevent default link behavior
-
-            // Trigger the download first
-            const link = event.target;
-            const href = link.getAttribute("href");
-            const a = document.createElement("a");
-            a.href = href;
-            a.download = "";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            // Show the blur overlay with animation
-            const overlay = document.getElementById("mac-download-overlay");
-            overlay.classList.remove("hidden");
-            setTimeout(() => {
-                overlay.classList.add("opacity-100");
-            }, 10); // Small delay to trigger the CSS transition
-
-            // Hide the overlay after 5 seconds
-            setTimeout(() => {
-                overlay.classList.remove("opacity-100");
-                setTimeout(() => {
-                    overlay.classList.add("hidden");
-                }, 500); // Wait for the fade-out animation to complete
-            }, 5000);
-        }
-
-        function showBowlingDownloadMessage(e) {
-            e.preventDefault();
-            const btn = e.currentTarget;
-            const overlay = btn.closest('.project-item').querySelector('#bowling-downloads-overlay');
-            btn.classList.add('blur');
+        // Download helpers
+        function showOverlay(id) {
+            const overlay = document.getElementById(id);
             overlay.classList.remove('hidden');
+            setTimeout(() => overlay.classList.add('opacity-100'), 10);
             setTimeout(() => {
-                btn.classList.remove('blur');
-                overlay.classList.add('hidden');
-                window.location.href = btn.href;
-            }, 2000);
+                overlay.classList.remove('opacity-100');
+                setTimeout(() => overlay.classList.add('hidden'), 500);
+            }, 4000);
+        }
+        function triggerDownload(event) {
+            event.preventDefault();
+            const href = event.currentTarget.getAttribute('href');
+            const a = document.createElement('a'); a.href = href; a.download = '';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            showOverlay('download-overlay');
+        }
+        function triggerDownloadMac(event) {
+            event.preventDefault();
+            const href = event.currentTarget.getAttribute('href');
+            const a = document.createElement('a'); a.href = href; a.download = '';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            showOverlay('mac-download-overlay');
         }
     </script>
 </body>

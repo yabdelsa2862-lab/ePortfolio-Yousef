@@ -1,245 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My ePortfolio - Photography</title>
+    <title>Photography | Yousef Abdelsalam</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.0/framer-motion.umd.min.js"></script>
-    <script defer src="assets/js/nav-contrast.js"></script>
-    <!-- FontAwesome for Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        .blurred {
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050b18;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+            background-size: 36px 36px;
+            pointer-events: none; z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 30%, rgba(139,92,246,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 80% 70%, rgba(59,130,246,0.06) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .nav-glass {
+            background: rgba(5,11,24,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+        }
+        .grad-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .anim-1 { animation: fadeUp 0.8s ease-out 0.1s both; }
+        .anim-2 { animation: fadeUp 0.8s ease-out 0.3s both; }
+        .anim-3 { animation: fadeUp 0.8s ease-out 0.5s both; }
+        .reveal {
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+        .nav-active { color: #60a5fa !important; }
+        .blurred { position: relative; display: inline-block; cursor: pointer; }
+        .blurred::after {
+            content: "Copied!"; position: absolute; inset: 0;
+            background: rgba(0,0,0,0.85); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; opacity: 0; transition: opacity 0.4s; z-index: 10;
+        }
+        .blurred.copied::after { opacity: 1; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050b18; }
+        ::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.4); border-radius: 3px; }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: #a78bfa;
+        }
+        .glow-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent); }
+
+        /* Photo card */
+        .photo-card {
             position: relative;
-            display: inline-block;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
             cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .photo-card:hover {
+            transform: scale(1.03) translateY(-3px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-color: rgba(167,139,250,0.35);
+        }
+        .photo-card img {
+            width: 100%; height: 220px;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+        .photo-card:hover img {
+            filter: brightness(0.7);
+        }
+        .photo-caption {
+            position: absolute; inset: 0;
+            display: flex; align-items: flex-end;
+            padding: 14px;
+            background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .photo-card:hover .photo-caption {
+            opacity: 1;
+        }
+        .photo-caption p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+            line-height: 1.3;
         }
 
-        .blurred::after {
-            content: "Copied!";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            display: flex;
+        /* Lightbox */
+        #lightbox {
+            position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
+            display: none;
             align-items: center;
             justify-content: center;
-            border-radius: 5px;
-            opacity: 0;
-            transition: opacity 0.5s, backdrop-filter 0.5s;
-            backdrop-filter: blur(10px);
-            top: 0;
-            left: 0;
-            z-index: 10;
+            padding: 20px;
         }
-
-        .blurred.copied::after {
-            opacity: 1;
-            backdrop-filter: blur(0px);
+        #lightbox.open { display: flex; }
+        #lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        /* Animation for smooth transitions */
-        .fade-in {
-            animation: fadeIn 1.5s ease-out;
+        #lightbox-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 1.2rem; color: white;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hover-scale:hover {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
-        }
-        /* White glow shadow for navbar */
-        .white-shadow {
-            box-shadow: 0 10px 40px rgba(255,255,255,0.10), 0 4px 10px rgba(255,255,255,0.06);
+        #lightbox-close:hover { background: rgba(255,255,255,0.2); }
+        #lightbox-caption {
+            position: absolute;
+            bottom: 24px;
+            left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            white-space: nowrap;
         }
     </style>
 </head>
+<body class="relative min-h-screen flex flex-col">
 
-<body class="bg-gray-900 text-white flex flex-col items-center h-screen pt-28">
-
-    
-
-    <!-- Navigation Bar -->
-    <nav role="navigation" aria-label="Main" class="fixed w-full top-8 left-0 z-50">
-        <div class="max-w-4xl mx-auto bg-white/6 backdrop-blur-md rounded-2xl p-3 px-6 flex items-center justify-between white-shadow transition-colors duration-300">
-            <a href="./index.html" class="flex items-center gap-3">
-                <img src="images/Logo.png.JPEG" alt="Logo" class="w-15 h-8 rounded" />
-                <span class="font-semibold">Yousef</span>
-            </a>
-
-            <button id="nav-toggle" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" aria-controls="nav-mobile" aria-expanded="false">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+    <!-- NAV -->
+    <nav class="fixed w-full top-0 left-0 z-50 px-4 pt-4 pb-2">
+        <div class="max-w-5xl mx-auto nav-glass rounded-2xl px-6 py-3 flex items-center justify-between">
+            <a href="./index.html" class="mono text-lg font-bold grad-text">&lt;YA/&gt;</a>
+            <button id="nav-toggle" class="md:hidden p-2 text-white/70 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
             </button>
-
-            <ul id="nav-desktop" class="hidden md:flex gap-8 items-center">
-                <li><a href="./index.html" class="nav-link text-lg font-medium text-white/90 hover:text-blue-400 transition">Home</a></li>
-                <li><a href="./Project.html" class="nav-link text-lg font-medium text-white/90 hover:text-red-400 transition">Projects</a></li>
-                <li><a href="./html.html" class="nav-link text-lg font-medium text-white/90 hover:text-green-400 transition">Resume</a></li>
-                <li><a href="./Photos.html" class="nav-link text-lg font-medium text-white/90 hover:text-purple-400 transition">Photography</a></li>
-                <li><a href="./about.html" class="nav-link text-lg font-medium text-white/90 hover:text-yellow-400 transition">About</a></li>
+            <ul class="hidden md:flex gap-7 items-center">
+                <li><a href="./index.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Photography</a></li>
             </ul>
-
-            <div class="hidden md:flex gap-3 items-center">
-                <a href="https://github.com/YousefNazmi-hackathon" class="text-white/80 hover:text-white"><i class="fab fa-github"></i></a>
+            <div class="hidden md:flex gap-4">
+                <a href="https://github.com/YousefNazmi-hackathon" target="_blank" class="text-white/50 hover:text-white transition text-lg"><i class="fab fa-github"></i></a>
             </div>
         </div>
-
-        <!-- mobile -->
-        <div id="nav-mobile" class="md:hidden hidden mt-2 max-w-4xl mx-auto bg-gray-800/80 rounded-xl p-4 shadow-lg">
-            <ul class="flex flex-col gap-2">
-                <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-white/5">Home</a></li>
-                <li><a href="./Project.html" class="block px-3 py-2 rounded hover:bg-white/5">Projects</a></li>
-                <li><a href="./html.html" class="block px-3 py-2 rounded hover:bg-white/5">Resume</a></li>
-                <li><a href="./Photos.html" class="block px-3 py-2 rounded hover:bg-white/5">Photography</a></li>
-                <li><a href="./about.html" class="block px-3 py-2 rounded hover:bg-white/5">About</a></li>
+        <div id="nav-mobile" class="hidden md:hidden mt-2 max-w-5xl mx-auto nav-glass rounded-xl p-4">
+            <ul class="flex flex-col gap-1">
+                <li><a href="./index.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Photography</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content Section -->
-    <div class="main-content text-white text-center mt-10 mb-10 fade-in">
-        <h1 class="text-3xl font-bold">My Photography</h1>
-        <p class="mt-2">Here are some photos I made over the years</p>
-        <div class="grid grid-cols-3 gap-4 mt-5">
-            <!-- Existing Images -->
-            <div class="text-center hover-scale">
-                <img src="./images/image1.jpg" alt="Photo 1" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">My first Professional Photo</p>
+    <!-- HEADER -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 pt-36 pb-12">
+        <p class="section-label mb-4 anim-1">// Creative Work</p>
+        <h1 class="text-5xl md:text-6xl font-black mb-4 anim-2">
+            <span class="grad-text">Photography</span>
+        </h1>
+        <p class="text-white/55 text-lg max-w-xl anim-3">
+            A collection of photos I've captured over the years — cars, nature, cats, people, and everything in between.
+            Click any photo to view it full size.
+        </p>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 pb-24">
+        <div class="glow-line mb-12 reveal"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="gallery">
+
+            <div class="photo-card reveal" style="transition-delay:0.03s" onclick="openLightbox(this)">
+                <img src="./images/image1.jpg" alt="Photo 1">
+                <div class="photo-caption"><p><i class="fas fa-camera mr-1"></i> My first Professional Photo</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image2.jpg" alt="Photo 2" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">My Cat under the blanket</p>
+            <div class="photo-card reveal" style="transition-delay:0.06s" onclick="openLightbox(this)">
+                <img src="./images/image2.jpg" alt="Photo 2">
+                <div class="photo-caption"><p><i class="fas fa-paw mr-1"></i> My Cat under the blanket</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image3.jpg" alt="Photo 3" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Rolls Royce in the Garage of a school</p>
+            <div class="photo-card reveal" style="transition-delay:0.09s" onclick="openLightbox(this)">
+                <img src="./images/image3.jpg" alt="Photo 3">
+                <div class="photo-caption"><p><i class="fas fa-car mr-1"></i> Rolls Royce in a school garage</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image4.jpg" alt="Photo 4" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">My Cat Again</p>
+            <div class="photo-card reveal" style="transition-delay:0.12s" onclick="openLightbox(this)">
+                <img src="./images/image4.jpg" alt="Photo 4">
+                <div class="photo-caption"><p><i class="fas fa-paw mr-1"></i> My Cat Again</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image5.jpg" alt="Photo 5" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">My Brother in front of the light</p>
+            <div class="photo-card reveal" style="transition-delay:0.15s" onclick="openLightbox(this)">
+                <img src="./images/image5.jpg" alt="Photo 5">
+                <div class="photo-caption"><p><i class="fas fa-user mr-1"></i> My Brother in front of the light</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image6.jpg" alt="Photo 6" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Car Moving (Stopped in Motion)</p>
+            <div class="photo-card reveal" style="transition-delay:0.18s" onclick="openLightbox(this)">
+                <img src="./images/image6.jpg" alt="Photo 6">
+                <div class="photo-caption"><p><i class="fas fa-car mr-1"></i> Car Moving (Stopped in Motion)</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image7.jpg" alt="Photo 7" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">My Brother on Phones</p>
+            <div class="photo-card reveal" style="transition-delay:0.21s" onclick="openLightbox(this)">
+                <img src="./images/image7.jpg" alt="Photo 7">
+                <div class="photo-caption"><p><i class="fas fa-user mr-1"></i> My Brother on Phone</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image8.jpg" alt="Photo 8" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Lakeshore</p>
+            <div class="photo-card reveal" style="transition-delay:0.24s" onclick="openLightbox(this)">
+                <img src="./images/image8.jpg" alt="Photo 8">
+                <div class="photo-caption"><p><i class="fas fa-water mr-1"></i> Lakeshore</p></div>
             </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image9.jpg" alt="Photo 9" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">HDR image of NORA FRANCES HENDERSON school</p>
+            <div class="photo-card reveal" style="transition-delay:0.27s" onclick="openLightbox(this)">
+                <img src="./images/image9.jpg" alt="Photo 9">
+                <div class="photo-caption"><p><i class="fas fa-school mr-1"></i> HDR — NORA FRANCES HENDERSON school</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.30s" onclick="openLightbox(this)">
+                <img src="image10.JPG" alt="Photo 10">
+                <div class="photo-caption"><p><i class="fas fa-flag mr-1"></i> Free Palestine!</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.33s" onclick="openLightbox(this)">
+                <img src="image11.jpg" alt="Photo 11">
+                <div class="photo-caption"><p><i class="fas fa-music mr-1"></i> Guitar Player</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.36s" onclick="openLightbox(this)">
+                <img src="./images/image12.JPG" alt="Photo 12">
+                <div class="photo-caption"><p><i class="fas fa-vote-yea mr-1"></i> Saltfleet — Salam El Dada</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.39s" onclick="openLightbox(this)">
+                <img src="image13.JPG" alt="Photo 13">
+                <div class="photo-caption"><p><i class="fas fa-water mr-1"></i> Lakeshore</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.42s" onclick="openLightbox(this)">
+                <img src="./images/image14.jpeg" alt="Photo 14">
+                <div class="photo-caption"><p><i class="fas fa-leaf mr-1"></i> Macro — A Tree Dancing</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.45s" onclick="openLightbox(this)">
+                <img src="./images/image15.JPG" alt="Photo 15">
+                <div class="photo-caption"><p><i class="fas fa-eye mr-1"></i> Something is up</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.48s" onclick="openLightbox(this)">
+                <img src="./images/image16.JPEG" alt="Photo 16">
+                <div class="photo-caption"><p><i class="fas fa-phone mr-1"></i> Ring ring</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.51s" onclick="openLightbox(this)">
+                <img src="./images/image17.jpg" alt="Photo 17">
+                <div class="photo-caption"><p><i class="fas fa-search mr-1"></i> Someone is down there</p></div>
+            </div>
+            <div class="photo-card reveal" style="transition-delay:0.54s" onclick="openLightbox(this)">
+                <img src="./images/image18.JPG" alt="Photo 18">
+                <div class="photo-caption"><p><i class="fas fa-flag mr-1"></i> Free Palestine! (2)</p></div>
             </div>
 
-            <!-- New Images (9 more photos) -->
-            <div class="text-center hover-scale">
-                <img src="image10.JPG" alt="Photo 10" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Free Palestine!</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="image11.jpg" alt="Photo 11" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Guitar Player</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image12.JPG" alt="Photo 12" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Saltfleet parliment Elections candidate Salam El Dada</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="image13.JPG" alt="Photo 13" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Lakeshore</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image14.jpeg" alt="Photo 14" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">A macro photo of a tree Dancing</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image15.JPG" alt="Photo 15" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Something is up</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image16.JPEG" alt="Photo 16" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">ring ring</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image17.jpg" alt="Photo 17" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Someone is down there</p>
-            </div>
-            <div class="text-center hover-scale">
-                <img src="./images/image18.JPG" alt="Photo 18" class="w-full max-w-xs rounded-lg">
-                <p class="text-sm mt-2">Free Palestine! (2)</p>
-            </div>
         </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox">
+        <button id="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" src="" alt="Full size photo">
+        <div id="lightbox-caption"></div>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="footer mt-auto w-full bg-gray-800 text-white text-center p-4">
-        <p>&copy; 2025 my ePortfolio. All rights reserved.</p>
-        <div class="footer-links mt-2">
-            <a href="./about.html" class="hover:underline">About</a> |
-            <div class="contact inline-block mx-2 blurred" id="phone-container" onclick="copyPhoneNumber()">
-                <p>
-                    Contact Me:
-                    <span id="phone-number">+1 (905) 865 1777</span>
-                </p>
+    <!-- FOOTER -->
+    <footer class="relative z-10 w-full border-t border-white/5 py-8 px-6 mt-auto">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="mono text-white/30 text-sm">&lt;YA/&gt; &copy; 2025 Yousef Abdelsalam</div>
+            <div class="flex flex-wrap gap-6 text-sm text-white/45 justify-center">
+                <a href="./index.html"   class="hover:text-white transition">Home</a>
+                <a href="./about.html"   class="hover:text-white transition">About</a>
+                <a href="./Project.html" class="hover:text-white transition">Projects</a>
+                <a href="./html.html"    class="hover:text-white transition">Resume</a>
+                <a href="https://www.instagram.com/yousef_photography_2862" target="_blank" class="hover:text-white transition">Instagram</a>
             </div>
-            |
-            <a href="https://www.instagram.com/yousef_photography_2862?igsh=MW9hdGVxYTZxdGhmbQ%3D%3D&utm_source=qr" class="hover:underline">Social Media</a>
         </div>
     </footer>
 
     <script>
-        function copyPhoneNumber() {
-            const phoneElement = document.getElementById("phone-container");
-            const phoneNumber = document.getElementById("phone-number").innerText;
-            navigator.clipboard.writeText(phoneNumber).then(() => {
-                phoneElement.classList.add("copied");
-                setTimeout(() => phoneElement.classList.remove("copied"), 2000);
-            });
+        // Nav
+        const toggle = document.getElementById('nav-toggle');
+        const mobile = document.getElementById('nav-mobile');
+        if (toggle) toggle.addEventListener('click', () => mobile.classList.toggle('hidden'));
+        const path = window.location.pathname;
+        document.querySelectorAll('.nav-link').forEach(a => {
+            const href = a.getAttribute('href').replace('./', '');
+            if (path.endsWith(href)) a.classList.add('nav-active', 'font-semibold');
+        });
+
+        // Scroll reveal
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.05 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Lightbox
+        function openLightbox(card) {
+            const img = card.querySelector('img');
+            const caption = card.querySelector('.photo-caption p');
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox-img').alt = img.alt;
+            document.getElementById('lightbox-caption').textContent = caption ? caption.textContent.trim() : '';
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
-
-        // Update the icon based on the current page
-        window.onload = function () {
-            const iconContainer = document.getElementById("icon-container");
-            const currentPage = window.location.pathname;
-            if (!iconContainer) return;
-
-            // Display Photography icon for Photography page
-            if (currentPage.includes("Photos.html")) {
-                iconContainer.innerHTML = '<i class="fas fa-camera text-4xl"></i>'; // Camera icon
-            } else if (currentPage.includes("index.html")) {
-                iconContainer.innerHTML = '<i class="fas fa-home text-4xl"></i>'; // Home icon
-            } else if (currentPage.includes("Project.html")) {
-                iconContainer.innerHTML = '<i class="fas fa-cogs text-4xl"></i>'; // Project icon
-            } else if (currentPage.includes("html.html")) {
-                iconContainer.innerHTML = '<i class="fas fa-file-alt text-4xl"></i>'; // Resume icon
-            } else if (currentPage.includes("about.html")) {
-                iconContainer.innerHTML = '<i class="fas fa-user text-4xl"></i>'; // About icon
-            }
-        };
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
     </script>
 </body>
-
 </html>

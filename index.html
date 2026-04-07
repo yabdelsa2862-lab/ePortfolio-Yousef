@@ -1,288 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My ePortfolio</title>
+    <title>Yousef Abdelsalam | CS ePortfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.0/framer-motion.umd.min.js"></script>
-    <script defer src="assets/js/nav-contrast.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Animation for smooth transitions */
-        .fade-in {
-            animation: fadeIn 1.5s ease-out;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050b18;
+            color: #fff;
+            overflow-x: hidden;
         }
+        /* Dot-grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+            background-size: 36px 36px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* Colour blobs */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 15% 40%, rgba(59,130,246,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 85% 20%, rgba(139,92,246,0.07) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
 
+        /* Nav */
+        .nav-glass {
+            background: rgba(5,11,24,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        /* Glass card */
+        .glass-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(59,130,246,0.35);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(59,130,246,0.12);
+        }
+        /* Gradient text */
+        .grad-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        /* CTA button */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(59,130,246,0.45);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(96,165,250,0.4);
+            transform: translateY(-2px);
+        }
+        /* Tech badge */
+        .tech-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.22);
+            color: #93c5fd;
+            white-space: nowrap;
+        }
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
-
-        .hover-scale:hover {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-8px); }
         }
-
-        /* Footer and blur animations */
-        .blurred {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.5; }
+            50%       { opacity: 1; }
         }
-
+        .anim-1 { animation: fadeUp 0.8s ease-out 0.1s both; }
+        .anim-2 { animation: fadeUp 0.8s ease-out 0.3s both; }
+        .anim-3 { animation: fadeUp 0.8s ease-out 0.5s both; }
+        .anim-4 { animation: fadeUp 0.8s ease-out 0.7s both; }
+        .anim-5 { animation: fadeUp 0.8s ease-out 0.9s both; }
+        .float  { animation: floatY 4s ease-in-out infinite; }
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+        /* Nav active */
+        .nav-active { color: #60a5fa !important; }
+        /* Blurred copy */
+        .blurred { position: relative; display: inline-block; cursor: pointer; }
         .blurred::after {
             content: "Copied!";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            opacity: 0;
-            transition: opacity 0.5s, backdrop-filter 0.5s;
-            backdrop-filter: blur(10px);
-            top: 0;
-            left: 0;
-            z-index: 10;
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.85); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; opacity: 0;
+            transition: opacity 0.4s; z-index: 10;
         }
-
-        .blurred.copied::after {
-            opacity: 1;
-            backdrop-filter: blur(0px);
+        .blurred.copied::after { opacity: 1; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050b18; }
+        ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.4); border-radius: 3px; }
+        /* Section divider */
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #60a5fa;
         }
-
-        /* White glow shadow for navbar */
-        .white-shadow {
-            box-shadow: 0 10px 40px rgba(255,255,255,0.10), 0 4px 10px rgba(255,255,255,0.06);
+        /* Glow line */
+        .glow-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(96,165,250,0.5), transparent);
         }
     </style>
 </head>
+<body class="relative min-h-screen flex flex-col">
 
-<body class="bg-gray-900 text-white flex flex-col items-center h-full pt-16">
-
-    <!-- Navigation Bar -->
-    <nav role="navigation" aria-label="Main" class="fixed w-full top-8 left-0 z-50">
-        <div class="max-w-4xl mx-auto bg-white/6 backdrop-blur-md rounded-2xl p-3 px-6 flex items-center justify-between white-shadow transition-colors duration-300">
-            <a href="./index.html" class="flex items-center gap-3">
-                <img src="images/Logo.png.JPEG" alt="Logo" class="w-15 h-8 rounded" />
-                <span class="font-semibold">Yousef</span>
+    <!-- ═══════════════════════════════════════ NAV ═══════════════════════════════════════ -->
+    <nav class="fixed w-full top-0 left-0 z-50 px-4 pt-4 pb-2">
+        <div class="max-w-5xl mx-auto nav-glass rounded-2xl px-6 py-3 flex items-center justify-between">
+            <a href="./index.html" class="flex items-center gap-2">
+                <span class="mono text-lg font-bold grad-text">&lt;YA/&gt;</span>
             </a>
 
-            <button id="nav-toggle" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                aria-controls="nav-mobile" aria-expanded="false">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <!-- Hamburger -->
+            <button id="nav-toggle" class="md:hidden p-2 text-white/70 hover:text-white transition" aria-label="Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
 
-            <ul id="nav-desktop" class="hidden md:flex gap-8 items-center">
-                <li><a href="./index.html"
-                        class="nav-link text-lg font-medium text-white/90 hover:text-blue-400 transition">Home</a>
-                </li>
-                <li><a href="./Project.html"
-                        class="nav-link text-lg font-medium text-white/90 hover:text-red-400 transition">Projects</a>
-                </li>
-                <li><a href="./html.html"
-                        class="nav-link text-lg font-medium text-white/90 hover:text-green-400 transition">Resume</a>
-                </li>
-                <li><a href="./Photos.html"
-                        class="nav-link text-lg font-medium text-white/90 hover:text-purple-400 transition">Photography</a>
-                </li>
-                <li><a href="./about.html"
-                        class="nav-link text-lg font-medium text-white/90 hover:text-yellow-400 transition">About</a>
-                </li>
+            <ul class="hidden md:flex gap-7 items-center">
+                <li><a href="./index.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Photography</a></li>
             </ul>
 
-            <div class="hidden md:flex gap-3 items-center">
-                <a href="https://github.com/YousefNazmi-hackathon" class="text-white/80 hover:text-white"><i class="fab fa-github"></i></a>
+            <div class="hidden md:flex gap-4 items-center">
+                <a href="https://github.com/YousefNazmi-hackathon" target="_blank" class="text-white/50 hover:text-white transition text-lg"><i class="fab fa-github"></i></a>
             </div>
         </div>
 
-        <!-- mobile -->
-        <div id="nav-mobile"
-            class="md:hidden hidden mt-2 max-w-4xl mx-auto bg-gray-800/80 rounded-xl p-4 shadow-lg">
-            <ul class="flex flex-col gap-2">
-                <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-white/5">Home</a></li>
-                <li><a href="./Project.html" class="block px-3 py-2 rounded hover:bg-white/5">Projects</a></li>
-                <li><a href="./html.html" class="block px-3 py-2 rounded hover:bg-white/5">Resume</a></li>
-                <li><a href="./Photos.html" class="block px-3 py-2 rounded hover:bg-white/5">Photography</a></li>
-                <li><a href="./about.html" class="block px-3 py-2 rounded hover:bg-white/5">About</a></li>
+        <!-- Mobile menu -->
+        <div id="nav-mobile" class="hidden md:hidden mt-2 max-w-5xl mx-auto nav-glass rounded-xl p-4">
+            <ul class="flex flex-col gap-1">
+                <li><a href="./index.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Photography</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section (Introduction to ePortfolio) -->
-    <section class="flex flex-col items-start mt-20 fade-in px-6 w-full max-w-4xl md:pl-16 lg:pl-24">
-        <h1 class="text-5xl font-bold tracking-wide mb-6">Welcome to My ePortfolio</h1>
-        <p class="text-xl leading-relaxed max-w-2xl">
-            An ePortfolio is a digital collection of my work, skills, and achievements. It's a dynamic way to present
-            myself online, showcasing my growth and the diverse projects I've worked on. This portfolio includes
-            examples of my work in software development, game development, photography, and more.
+    <!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+    <section class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-6 pt-24">
+        <!-- Glowing circle behind name -->
+        <div class="absolute w-96 h-96 rounded-full bg-blue-500/5 blur-3xl pointer-events-none" style="top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+        <p class="mono text-blue-400 text-sm mb-5 tracking-widest anim-1">// Hello, World! 👋</p>
+
+        <h1 class="text-6xl sm:text-7xl md:text-8xl font-black leading-none mb-4 anim-2">
+            <span class="text-white">Yousef</span><br>
+            <span class="grad-text">Abdelsalam</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-white/55 mb-3 anim-3">
+            Computer Science Student at <span class="text-white font-semibold">Brock University</span>
         </p>
-    </section>
 
-    <!-- What is an ePortfolio? -->
-    <section class="flex flex-col md:flex-row items-start gap-8 mt-12 fade-in px-6 w-full">
-        <div class="md:w-1/2 text-left md:pl-16 lg:pl-24"> <!-- Flushed left with extra left padding on larger screens -->
-            <h2 class="text-4xl font-semibold mb-6">What is an ePortfolio?</h2>
-            <p class="text-xl leading-relaxed">
-                An ePortfolio is an online platform that displays your skills, experiences, and projects in a
-                professional format.
-                It allows you to organize and showcase your work to potential employers, collaborators, and clients.
-                This website serves as a digital resume, a portfolio of my projects, and a representation of my
-                creative endeavors in photography.
-            </p>
+        <!-- Typewriter -->
+        <div class="flex items-center justify-center gap-1 mb-10 anim-4 h-7">
+            <span class="mono text-blue-400 text-sm" id="typewriter"></span>
+            <span class="mono text-blue-400 text-sm animate-pulse">|</span>
         </div>
-        <div class="md:w-1/2 w-full md:pr-16 lg:pr-24">
-            <img src="image-beside-text.png" alt="ePortfolio Overview" class="w-full h-64 object-cover rounded-lg shadow-lg">
+
+        <!-- CTA buttons -->
+        <div class="flex flex-wrap gap-4 justify-center anim-5">
+            <a href="./Project.html" class="btn-primary text-white px-8 py-3 rounded-xl font-semibold text-sm inline-flex items-center gap-2">
+                <i class="fas fa-code"></i> View Projects
+            </a>
+            <a href="./html.html" class="btn-secondary text-white px-8 py-3 rounded-xl font-semibold text-sm inline-flex items-center gap-2">
+                <i class="fas fa-file-alt"></i> My Resume
+            </a>
+            <a href="./about.html" class="btn-secondary text-white px-8 py-3 rounded-xl font-semibold text-sm inline-flex items-center gap-2">
+                <i class="fas fa-user"></i> About Me
+            </a>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/25 anim-5">
+            <span class="text-xs">scroll</span>
+            <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
         </div>
     </section>
 
-    <!-- Why do you want to make an ePortfolio? -->
-    <section class="text-left mt-20 fade-in px-6 w-full max-w-4xl md:pl-16 lg:pl-24">
-        <h2 class="text-4xl font-semibold mb-6">Why do you want to make an ePortfolio?</h2>
-        <p class="text-xl leading-relaxed max-w-2xl">
-            I want to create an ePortfolio to showcase my skills, projects, and personal growth over time. It allows
-            me to present my work in an organized and visually appealing way. An ePortfolio is a valuable tool for
-            both personal reflection and professional networking, providing potential employers or collaborators a
-            clear understanding of my abilities.
-        </p>
+    <!-- ════════════════════════════════ ABOUT PREVIEW ════════════════════════════════════ -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 py-20 reveal">
+        <div class="glow-line mb-16"></div>
+        <p class="section-label mb-3">// About Me</p>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+            <div class="w-36 h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden border border-white/10 flex-shrink-0 float">
+                <img src="images/Logo.png.JPEG" alt="Yousef Abdelsalam" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    Hi, I'm <span class="grad-text">Yousef</span>
+                </h2>
+                <p class="text-white/65 leading-relaxed mb-6 max-w-xl">
+                    A passionate coder, builder, and creator. I love turning ideas into reality through code —
+                    whether that's web apps, games, AI projects, or mobile apps. I'm currently studying Computer
+                    Science at Brock University and always looking to challenge myself with new technologies.
+                </p>
+                <!-- Tech badges -->
+                <div class="flex flex-wrap gap-2">
+                    <span class="tech-badge">Python</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">HTML / CSS</span>
+                    <span class="tech-badge">Swift / iOS</span>
+                    <span class="tech-badge">Unity / C#</span>
+                    <span class="tech-badge">Machine Learning</span>
+                    <span class="tech-badge">Pygame</span>
+                    <span class="tech-badge">CoreML</span>
+                </div>
+            </div>
+        </div>
     </section>
 
-
-    <!-- Page Previews Section (with Animations) -->
-    <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 md:gap-8 mt-28 px-3 md:px-4 fade-in max-w-full">
-        <a href="./html.html" class="shadow-card p-0 rounded-xl hover-scale relative hover:z-10 overflow-visible block">
-            <div class="bg-gray-800 rounded-xl p-8 flex flex-col md:flex-row md:items-center gap-8 w-full min-h-[140px]">
-                <!-- Image on the left -->
-                <div class="w-full md:w-56 lg:w-64 h-36 rounded overflow-hidden flex-shrink-0">
-                    <img src="your-qrcode-image.png" alt="Resume" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1">
-                    <span class="text-xl font-semibold hover:text-blue-500 transition-all duration-300">Resume</span>
-                    <p class="text-sm mt-2">A snapshot of my professional skills and experiences in an easy-to-read format.</p>
-                </div>
-            </div>
-        </a>
-        <a href="./Photos.html" class="shadow-card p-0 rounded-xl hover-scale relative hover:z-10 overflow-visible block">
-            <div class="bg-gray-800 rounded-xl p-8 flex flex-col md:flex-row md:items-center gap-8 w-full min-h-[140px]">
-                <!-- Image on the left -->
-                <div class="w-full md:w-56 lg:w-64 h-36 rounded overflow-hidden flex-shrink-0">
-                    <img src="image5.jpg" alt="Photography" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1">
-                    <span class="text-xl font-semibold hover:text-purple-500 transition-all duration-300">Photography</span>
-                    <p class="text-sm mt-2">Explore a collection of my photography work, capturing moments and creativity.</p>
-                </div>
-            </div>
-        </a>
-        <a href="./Project.html" class="shadow-card p-0 rounded-xl hover-scale relative hover:z-10 overflow-visible block">
-            <div class="bg-gray-800 rounded-xl p-8 flex flex-col md:flex-row md:items-center gap-8 w-full min-h-[140px]">
-                <!-- Image on the left -->
-                <div class="w-full md:w-56 lg:w-64 h-36 rounded overflow-hidden flex-shrink-0">
-                    <img src="projects.png" alt="Projects" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1">
-                    <span class="text-xl font-semibold hover:text-red-500 transition-all duration-300">Projects</span>
-                    <p class="text-sm mt-2">Discover the projects I've worked on, from software development to game design.</p>
-                </div>
-            </div>
-        </a>
-    </section>
-
-
-
-    <!-- GitHub Link with Hover Effect -->
-    <div class="mt-10 fade-in mb-10">
-        <a href="https://github.com/YousefNazmi-hackathon/ePortfolio-Official" target="_blank"
-            class="bg-blue-500 text-white px-8 py-4 rounded-lg text-2xl shadow-lg hover:bg-blue-600 hover:scale-105 transition-all duration-300">
-            View My GitHub Repo
-        </a>
-    </div>
-
-    <!-- Footer Section with Contact -->
-    <footer class="footer mt-auto w-full bg-gray-800 text-white text-center p-4">
-        <p>&copy; 2025 my ePortfolio. All rights reserved.</p>
-        <div class="footer-links mt-2">
-            <a href="./about.html" class="hover:underline">About</a> |
-            <div class="contact inline-block mx-2 blurred" id="phone-container" onclick="copyPhoneNumber()">
-                <p>
-                    Contact Me:
-                    <span id="phone-number">+1 (905) 865 1777</span>
+    <!-- ════════════════════════════════ WHAT IS AN ePORTFOLIO ═══════════════════════════ -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 pb-20 reveal">
+        <div class="glass-card rounded-2xl p-8 md:p-10 flex flex-col md:flex-row gap-10 items-center">
+            <div class="flex-1">
+                <p class="section-label mb-3">// What is an ePortfolio?</p>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">My Digital Showcase</h2>
+                <p class="text-white/60 leading-relaxed mb-4">
+                    An ePortfolio is an online platform that displays my skills, experiences, and projects in a
+                    professional format — like a living resume. This site serves as my digital identity, organized
+                    to show potential employers, collaborators, and university faculty exactly what I can build.
+                </p>
+                <p class="text-white/60 leading-relaxed">
+                    You'll find my programming projects (games, AI, mobile apps), photography work, and my full
+                    resume all in one place. It's a complete picture of who I am as a Computer Science student.
                 </p>
             </div>
-            |
-            <a href="https://www.instagram.com/yousef_photography_2862?igsh=MW9hdGVxYTZxdGhmbQ%3D%3D&utm_source=qr"
-                class="hover:underline">Social Media</a>
+            <div class="md:w-72 lg:w-80 w-full rounded-xl overflow-hidden border border-white/8">
+                <img src="images/image-beside-text.png" onerror="this.src='images/projects.png'"
+                     alt="ePortfolio concept" class="w-full h-52 object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════ SECTION CARDS ════════════════════════════════════ -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 pb-24">
+        <p class="section-label mb-3 text-center reveal">// Explore</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 reveal">What's Inside</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Projects -->
+            <a href="./Project.html" class="glass-card rounded-2xl p-6 group reveal block" style="transition-delay:0.05s">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center mb-4 group-hover:bg-blue-500/25 transition">
+                    <i class="fas fa-gamepad text-blue-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition">Projects</h3>
+                <p class="text-white/55 text-sm leading-relaxed">
+                    Games, AI experiments, iOS apps, and more — built throughout Grade 11 &amp; 12.
+                </p>
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                    <span class="tech-badge">Pong</span>
+                    <span class="tech-badge">AI Snake</span>
+                    <span class="tech-badge">Unity</span>
+                    <span class="tech-badge">iOS</span>
+                </div>
+            </a>
+
+            <!-- Resume -->
+            <a href="./html.html" class="glass-card rounded-2xl p-6 group reveal block" style="transition-delay:0.1s">
+                <div class="w-12 h-12 rounded-xl bg-green-500/15 flex items-center justify-center mb-4 group-hover:bg-green-500/25 transition">
+                    <i class="fas fa-file-alt text-green-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 group-hover:text-green-400 transition">Resume</h3>
+                <p class="text-white/55 text-sm leading-relaxed">
+                    A professional snapshot of my skills, experience, and accomplishments — downloadable PDF.
+                </p>
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                    <span class="tech-badge" style="border-color:rgba(34,197,94,0.3);color:#86efac;background:rgba(34,197,94,0.08);">Downloadable</span>
+                </div>
+            </a>
+
+            <!-- Photography -->
+            <a href="./Photos.html" class="glass-card rounded-2xl p-6 group reveal block" style="transition-delay:0.15s">
+                <div class="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-4 group-hover:bg-purple-500/25 transition">
+                    <i class="fas fa-camera text-purple-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 group-hover:text-purple-400 transition">Photography</h3>
+                <p class="text-white/55 text-sm leading-relaxed">
+                    A creative collection of photos I've taken — cars, nature, portraits, and street photography.
+                </p>
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                    <span class="tech-badge" style="border-color:rgba(168,85,247,0.3);color:#d8b4fe;background:rgba(168,85,247,0.08);">18 Photos</span>
+                </div>
+            </a>
+
+            <!-- About -->
+            <a href="./about.html" class="glass-card rounded-2xl p-6 group reveal block" style="transition-delay:0.2s">
+                <div class="w-12 h-12 rounded-xl bg-yellow-500/15 flex items-center justify-center mb-4 group-hover:bg-yellow-500/25 transition">
+                    <i class="fas fa-user text-yellow-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 group-hover:text-yellow-400 transition">About Me</h3>
+                <p class="text-white/55 text-sm leading-relaxed">
+                    Learn more about who I am, my interests, my tech stack, and how to connect with me.
+                </p>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com/YousefNazmi-hackathon" target="_blank" class="glass-card rounded-2xl p-6 group reveal block" style="transition-delay:0.25s">
+                <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-4 group-hover:bg-white/10 transition">
+                    <i class="fab fa-github text-white text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 group-hover:text-white transition">GitHub</h3>
+                <p class="text-white/55 text-sm leading-relaxed">
+                    Browse my repositories, open-source contributions, and project source code.
+                </p>
+            </a>
+
+            <!-- Contact -->
+            <div class="glass-card rounded-2xl p-6 reveal" style="transition-delay:0.3s">
+                <div class="w-12 h-12 rounded-xl bg-red-500/15 flex items-center justify-center mb-4">
+                    <i class="fas fa-envelope text-red-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Contact</h3>
+                <div class="blurred text-white/55 text-sm cursor-pointer" id="phone-container" onclick="copyPhoneNumber()">
+                    <p class="leading-relaxed">Click to copy my phone number:<br>
+                        <span id="phone-number" class="mono text-white/80">+1 (905) 865 1777</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ FOOTER ════════════════════════════════════ -->
+    <footer class="relative z-10 w-full border-t border-white/5 py-8 px-6 mt-auto">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="mono text-white/30 text-sm">&lt;YA/&gt; &copy; 2025 Yousef Abdelsalam</div>
+            <div class="flex flex-wrap gap-6 text-sm text-white/45 justify-center">
+                <a href="./about.html" class="hover:text-white transition">About</a>
+                <a href="./Project.html" class="hover:text-white transition">Projects</a>
+                <a href="./html.html" class="hover:text-white transition">Resume</a>
+                <a href="./Photos.html" class="hover:text-white transition">Photography</a>
+                <a href="https://github.com/YousefNazmi-hackathon" target="_blank" class="hover:text-white transition">GitHub</a>
+                <a href="https://www.instagram.com/yousef_photography_2862" target="_blank" class="hover:text-white transition">Instagram</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        function copyPhoneNumber() {
-            const phoneElement = document.getElementById("phone-container");
-            const phoneNumber = document.getElementById("phone-number").innerText;
-            navigator.clipboard.writeText(phoneNumber).then(() => {
-                phoneElement.classList.add("copied");
-                setTimeout(() => phoneElement.classList.remove("copied"), 2000);
-            });
-        }
-
-        window.onload = function () {
-            const iconContainer = document.getElementById("icon-container");
-            const currentPage = window.location.pathname;
-            if (!iconContainer) return;
-
-            if (currentPage.includes("html.html")) {
-                iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 12h10M7 17h10M4 4h16v16H4V4z" /></svg>';
-            } else if (currentPage.includes("Photos.html")) {
-                iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v18h14V3H5z" /></svg>';
-            } else if (currentPage.includes("index.html")) {
-                iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16M4 12h16" /></svg>';
-            } else if (currentPage.includes("Project.html")) {
-                iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18V3H3z" /></svg>';
-            } else if (currentPage.includes("about.html")) {
-                iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zM12 12c-1.105 0-2 .895-2 2v2h4v-2c0-1.105-.895-2-2-2zM12 4c-4.418 0-8 3.582-8 8v2h16v-2c0-4.418-3.582-8-8-8z" /></svg>';
+        // ── Typewriter ──────────────────────────────────────────────────
+        const roles = [
+            'Game Developer',
+            'Web Developer',
+            'AI / ML Enthusiast',
+            'iOS Developer',
+            'Photographer',
+        ];
+        let ri = 0, ci = 0, deleting = false;
+        const tw = document.getElementById('typewriter');
+        function typeLoop() {
+            const word = roles[ri];
+            if (!deleting) {
+                tw.textContent = word.slice(0, ci + 1);
+                ci++;
+                if (ci === word.length) { deleting = true; return setTimeout(typeLoop, 1800); }
+            } else {
+                tw.textContent = word.slice(0, ci - 1);
+                ci--;
+                if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
             }
-        };
+            setTimeout(typeLoop, deleting ? 60 : 100);
+        }
+        typeLoop();
 
-        // mobile toggle
+        // ── Nav toggle ──────────────────────────────────────────────────
         const toggle = document.getElementById('nav-toggle');
         const mobile = document.getElementById('nav-mobile');
-        if (toggle && mobile) {
-            toggle.addEventListener('click', () => {
-                const expanded = toggle.getAttribute('aria-expanded') === 'true';
-                toggle.setAttribute('aria-expanded', String(!expanded));
-                mobile.classList.toggle('hidden');
-            });
-        }
+        if (toggle) toggle.addEventListener('click', () => mobile.classList.toggle('hidden'));
 
-        // active link highlight
+        // ── Active nav link ─────────────────────────────────────────────
         const path = window.location.pathname;
         document.querySelectorAll('.nav-link').forEach(a => {
-            if (path.includes(a.getAttribute('href'))) {
-                a.classList.add('text-blue-400', 'font-bold', 'border-b-2', 'border-blue-400');
+            const href = a.getAttribute('href').replace('./', '');
+            if (path.endsWith(href) || (href === 'index.html' && (path === '/' || path.endsWith('/')))) {
+                a.classList.add('nav-active', 'font-semibold');
             }
         });
 
-        // optional: add shadow or color change on scroll
-        window.addEventListener('scroll', () => {
-            document.querySelector('nav > div').classList.toggle('shadow-xl', window.scrollY > 10);
-        });
+        // ── Scroll reveal ───────────────────────────────────────────────
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ── Copy phone ──────────────────────────────────────────────────
+        function copyPhoneNumber() {
+            const el = document.getElementById('phone-container');
+            navigator.clipboard.writeText('+1 (905) 865 1777').then(() => {
+                el.classList.add('copied');
+                setTimeout(() => el.classList.remove('copied'), 2000);
+            });
+        }
     </script>
-
 </body>
-
 </html>
