@@ -2,163 +2,260 @@
 <html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <title>Unity Game</title>
+    <title>Unity Game (Beta) | Yousef Abdelsalam</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="assets/js/nav-contrast.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        .fade-in { animation: fadeIn 1.5s ease-out; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050b18;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        /* Dot-grid background */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='36' height='36' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='rgba(255%2C255%2C255%2C0.055)'/%3E%3C/svg%3E");
+            background-size: 36px 36px;
+            pointer-events: none; z-index: 0;
+        }
+        /* Colour blobs */
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 15% 40%, rgba(59,130,246,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 85% 20%, rgba(139,92,246,0.07) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Nav */
+        .nav-glass {
+            background: rgba(5,11,24,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+        }
+        /* Glass card */
+        .glass-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s ease;
+        }
+        /* Gradient text */
+        .grad-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(96,165,250,0.4);
+            transform: translateY(-2px);
+        }
+        .btn-blue {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            transition: all 0.3s;
+        }
+        .btn-blue:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
+
+        .fade-in { animation: fadeIn 0.8s ease-out both; }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px);}
-            to { opacity: 1; transform: translateY(0);}
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .hover-scale:hover {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
+        .tech-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.2);
+            color: #93c5fd;
+            white-space: nowrap;
         }
-        #controls-panel.fullscreen-fix {
-            width: 100vw !important;
-            height: 100vh !important;
-            left: 0 !important;
-            top: 0 !important;
-            border-radius: 0 !important;
+        .nav-active { color: #60a5fa !important; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050b18; }
+        ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.4); border-radius: 3px; }
+
+        /* Blurred copy */
+        .blurred { position: relative; display: inline-block; cursor: pointer; }
+        .blurred::after {
+            content: "Copied!";
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.85); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; opacity: 0;
+            transition: opacity 0.4s; z-index: 10;
         }
-        /* White glow shadow for navbar */
-        .white-shadow {
-            box-shadow: 0 10px 40px rgba(255,255,255,0.10), 0 4px 10px rgba(255,255,255,0.06);
-        }
+        .blurred.copied::after { opacity: 1; }
     </style>
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center h-full pt-28">
+<body class="relative min-h-screen flex flex-col pt-32">
 
-    <!-- Back to Projects Button: fixed at top left with margin -->
-    <div class="fixed top-8 left-8 z-50">
-        <a href="./Project.html" class="relative bg-gray-800 px-5 py-2 rounded-xl shadow-lg text-lg font-semibold hover:text-blue-500 transition-all duration-300 group">
-            &larr; Back to Projects
-            <!-- Underline spans the width of the button, not just the text -->
-            <span class="pointer-events-none absolute left-0 bottom-0 h-1 w-0 bg-blue-500 transition-all duration-300 group-hover:w-full rounded"></span>
+    <!-- Back to Projects Button: absolute at top left of grid space -->
+    <div class="w-full max-w-5xl mx-auto px-6 mb-6">
+        <a href="./Project.html" class="btn-secondary text-white px-5 py-2.5 rounded-xl font-semibold text-sm inline-flex items-center gap-2">
+            <i class="fas fa-arrow-left"></i> Back to Projects
         </a>
     </div>
 
-    <!-- Navigation Bar -->
-    <nav role="navigation" aria-label="Main" class="fixed w-full top-8 left-0 z-50">
-        <div class="max-w-4xl mx-auto bg-white/6 backdrop-blur-md rounded-2xl p-3 px-6 flex items-center justify-between white-shadow transition-colors duration-300">
-            <a href="./index.html" class="flex items-center gap-3">
-                <img src="images/Logo.png.JPEG" alt="Logo" class="w-15 h-8 rounded" />
-                <span class="font-semibold">Yousef</span>
-            </a>
-
-            <button id="nav-toggle" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" aria-controls="nav-mobile" aria-expanded="false">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    <!-- NAV -->
+    <nav class="fixed w-full top-0 left-0 z-50 px-4 pt-4 pb-2">
+        <div class="max-w-5xl mx-auto nav-glass rounded-2xl px-6 py-3 flex items-center justify-between">
+            <a href="./index.html" class="mono text-lg font-bold grad-text">&lt;YA/&gt;</a>
+            <button id="nav-toggle" class="md:hidden p-2 text-white/70 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
-
-            <ul id="nav-desktop" class="hidden md:flex gap-8 items-center">
-                <li><a href="./index.html" class="nav-link text-lg font-medium text-white/90 hover:text-blue-400 transition">Home</a></li>
-                <li><a href="./Project.html" class="nav-link text-lg font-medium text-white/90 hover:text-red-400 transition">Projects</a></li>
-                <li><a href="./html.html" class="nav-link text-lg font-medium text-white/90 hover:text-green-400 transition">Resume</a></li>
-                <li><a href="./Photos.html" class="nav-link text-lg font-medium text-white/90 hover:text-purple-400 transition">Photography</a></li>
-                <li><a href="./about.html" class="nav-link text-lg font-medium text-white/90 hover:text-yellow-400 transition">About</a></li>
+            <ul class="hidden md:flex gap-7 items-center">
+                <li><a href="./index.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="nav-link text-sm font-medium text-white/70 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="nav-link text-sm font-medium text-white/70 hover:text-white transition">Photography</a></li>
             </ul>
-
-            <div class="hidden md:flex gap-3 items-center">
-                <a href="https://github.com/YousefNazmi-hackathon" class="text-white/80 hover:text-white"><i class="fab fa-github"></i></a>
+            <div class="hidden md:flex gap-4">
+                <a href="https://github.com/YousefNazmi-hackathon" target="_blank" class="text-white/50 hover:text-white transition text-lg"><i class="fab fa-github"></i></a>
             </div>
         </div>
-
-        <!-- mobile -->
-        <div id="nav-mobile" class="md:hidden hidden mt-2 max-w-4xl mx-auto bg-gray-800/80 rounded-xl p-4 shadow-lg">
-            <ul class="flex flex-col gap-2">
-                <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-white/5">Home</a></li>
-                <li><a href="./Project.html" class="block px-3 py-2 rounded hover:bg-white/5">Projects</a></li>
-                <li><a href="./html.html" class="block px-3 py-2 rounded hover:bg-white/5">Resume</a></li>
-                <li><a href="./Photos.html" class="block px-3 py-2 rounded hover:bg-white/5">Photography</a></li>
-                <li><a href="./about.html" class="block px-3 py-2 rounded hover:bg-white/5">About</a></li>
+        <div id="nav-mobile" class="hidden md:hidden mt-2 max-w-5xl mx-auto nav-glass rounded-xl p-4">
+            <ul class="flex flex-col gap-1">
+                <li><a href="./index.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Home</a></li>
+                <li><a href="./about.html"   class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">About</a></li>
+                <li><a href="./Project.html" class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Projects</a></li>
+                <li><a href="./html.html"    class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Resume</a></li>
+                <li><a href="./Photos.html"  class="block px-4 py-2.5 rounded-lg text-white/80 hover:bg-white/5 hover:text-white transition">Photography</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="fade-in w-full flex flex-col items-center mt-0">
-        <!-- Add space between nav and title -->
-        <div class="h-8"></div>
-        <h1 class="text-3xl font-bold mb-2">Unity Game (Beta)</h1>
-        <!-- Add space between title and game -->
-        <div class="h-6"></div>
-        <div class="flex flex-col md:flex-row w-full max-w-7xl items-start justify-center gap-16">
-            <!-- Game on the left -->
-            <div class="flex-shrink-0 w-full md:w-auto" style="max-width:800px;">
-                <div class="bg-gray-900 rounded-lg shadow-lg p-0 m-0 flex items-center justify-center" style="overflow:hidden; height:450px;">
-                    <div id="unity-container" class="unity-desktop" style="width:800px; height:450px;">
-                        <canvas id="unity-canvas" width="800" height="450" tabindex="-1" style="background: #222; border-radius: 0.5rem;"></canvas>
-                        <div id="unity-loading-bar">
-                            <div id="unity-logo"></div>
-                            <div id="unity-progress-bar-empty">
-                                <div id="unity-progress-bar-full"></div>
-                            </div>
+    <div class="fade-in w-full max-w-5xl mx-auto px-6 pb-24">
+        <h1 class="text-4xl font-black mb-6">
+            Unity Game <span class="mono text-blue-400 text-xs px-2 py-0.5 rounded-md bg-blue-400/10 border border-blue-400/25 ml-2 align-middle">BETA</span>
+        </h1>
+        
+        <div class="flex flex-col lg:flex-row items-start gap-8">
+            
+            <!-- Game Frame on the left -->
+            <div class="flex-1 w-full glass-card rounded-2xl overflow-hidden p-1 bg-white/3">
+                <div id="unity-container" class="unity-desktop w-full relative" style="aspect-ratio: 16/9; max-height:480px;">
+                    <canvas id="unity-canvas" class="w-full h-full block bg-black rounded-xl" tabindex="-1"></canvas>
+                    
+                    <div id="unity-loading-bar" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-950/80 rounded-xl z-20" style="display:none;">
+                        <div class="text-blue-400 font-semibold mb-2">Loading WebAssembly Bundle...</div>
+                        <div id="unity-progress-bar-empty" class="w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                            <div id="unity-progress-bar-full" class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 0%;"></div>
                         </div>
-                        <div id="unity-warning"></div>
-                        <div id="unity-footer" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; background: #18181b; border-radius: 0 0 0.5rem 0.5rem;">
-                            <div id="unity-logo-title-footer"></div>
-                            <button id="unity-fullscreen-button" class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded ml-2" style="display: flex; align-items: center;">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3"/>
-                                </svg>
-                                Fullscreen
-                            </button>
-                            <div id="unity-build-title" class="ml-4 text-sm text-gray-300">My project (1)</div>
-                        </div>
+                    </div>
+                    
+                    <div id="unity-warning" class="absolute top-2 left-2 z-30"></div>
+                </div>
+                
+                <!-- Unity game footer utilities -->
+                <div id="unity-footer" class="flex items-center justify-between p-4 bg-gray-950/40 rounded-b-xl border-t border-white/5">
+                    <div id="unity-build-title" class="mono text-xs text-white/45 flex items-center gap-1.5">
+                        <i class="fas fa-cube text-blue-400"></i> My project (1)
+                    </div>
+                    <button id="unity-fullscreen-button" class="btn-secondary text-white px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5">
+                        <i class="fas fa-expand"></i> Fullscreen
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Instructions Panel on the right -->
+            <div class="w-full lg:w-80 glass-card rounded-2xl p-6 flex flex-col gap-6">
+                <div>
+                    <h2 class="text-lg font-bold mb-3 text-blue-400 inline-flex items-center gap-2">
+                        <i class="fas fa-circle-info"></i> How to Play
+                    </h2>
+                    <ul class="list-disc list-inside text-white/60 text-xs leading-relaxed space-y-2">
+                        <li>Click inside the game window to capture controls and activate audio.</li>
+                        <li>If you hear no audio, interact with the screen elements first.</li>
+                        <li>This game is designed to run best on standard desktop browsers.</li>
+                    </ul>
+                </div>
+                
+                <div class="border-t border-white/5 pt-4">
+                    <h3 class="text-sm font-bold mb-3 text-purple-400 inline-flex items-center gap-2">
+                        <i class="fas fa-keyboard"></i> Controls
+                    </h3>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex justify-between items-center"><span class="text-white/60">Move Up / Forward</span><span class="mono px-2 py-0.5 rounded bg-white/10 text-blue-300">W</span></li>
+                        <li class="flex justify-between items-center"><span class="text-white/60">Move Down / Backward</span><span class="mono px-2 py-0.5 rounded bg-white/10 text-blue-300">S</span></li>
+                        <li class="flex justify-between items-center"><span class="text-white/60">Move Left</span><span class="mono px-2 py-0.5 rounded bg-white/10 text-blue-300">A</span></li>
+                        <li class="flex justify-between items-center"><span class="text-white/60">Move Right</span><span class="mono px-2 py-0.5 rounded bg-white/10 text-blue-300">D</span></li>
+                        <li class="flex justify-between items-center"><span class="text-white/60">Shoot Weapon</span><span class="mono px-2.5 py-0.5 rounded bg-white/10 text-purple-300">Space</span></li>
+                        <li class="flex justify-between items-center"><span class="text-white/60">Restart Game</span><span class="mono px-2.5 py-0.5 rounded bg-white/10 text-green-300">R</span></li>
+                    </ul>
+                    <div class="mt-4 text-[10px] text-orange-400/80 leading-relaxed italic bg-orange-500/5 border border-orange-500/10 p-2 rounded-lg">
+                        <strong>Developer Mode:</strong> Hot-unloading is enabled. You can exit the WebAssembly runtime safely.
                     </div>
                 </div>
             </div>
-            <!-- Instructions on the right -->
-            <div class="bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-md mt-4 md:mt-0">
-                <h2 class="text-xl font-semibold mb-4 text-green-400">How to Play</h2>
-                <ul class="list-disc list-inside text-white space-y-2 mb-4">
-                    <li>Click inside the game to activate sound and controls.</li>
-                    <li>If you don't hear sound, interact with the game window first.</li>
-                    <li>For best experience, use a desktop browser.</li>
-                </ul>
-                <h3 class="text-lg font-semibold mb-2 text-blue-300">Controls</h3>
-                <ul class="list-disc list-inside text-white space-y-1">
-                    <li><span class="font-bold">W</span> – Move Forward</li>
-                    <li><span class="font-bold">S</span> – Move Down</li>
-                    <li><span class="font-bold">A</span> – Move Left</li>
-                    <li><span class="font-bold">D</span> – Move Right</li>
-                    <li><span class="font-bold">Space</span> – Shoot</li>
-                    <li><span class="font-bold">R</span> – Restart</li>
-                    <li>Close with the close button [Dev mode Enabled :(  ]</li>
-                </ul>
-            </div>
+            
         </div>
     </div>
 
-    <!-- Footer Section (like index.html) -->
-    <footer class="footer mt-auto w-full bg-gray-800 text-white text-center p-4">
-        <p>&copy; 2025 my ePortfolio. All rights reserved.</p>
-        <div class="footer-links mt-2">
-            <a href="./about.html" class="hover:underline">About</a> |
-            <span class="inline-block mx-2 blurred" id="phone-container" onclick="copyPhoneNumber()">
-                Contact Me: <span id="phone-number">+1 (905) 865 1777</span>
-            </span>
-            |
-            <a href="https://www.instagram.com/yousef_photography_2862?igsh=MW9hdGVxYTZxdGhmbQ%3D%3D&utm_source=qr" class="hover:underline">Social Media</a>
+    <!-- FOOTER (Matching index/projects page style) -->
+    <footer class="relative z-10 w-full border-t border-white/5 py-8 px-6 mt-auto">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="mono text-white/30 text-sm">&lt;YA/&gt; &copy; 2025 Yousef Abdelsalam</div>
+            <div class="flex flex-wrap gap-6 text-sm text-white/45 justify-center">
+                <a href="./index.html"   class="hover:text-white transition">Home</a>
+                <a href="./about.html"   class="hover:text-white transition">About</a>
+                <a href="./Project.html" class="hover:text-white transition">Projects</a>
+                <a href="./html.html"    class="hover:text-white transition">Resume</a>
+                <a href="./Photos.html"  class="hover:text-white transition">Photography</a>
+                <span class="hover:text-white transition cursor-pointer blurred" id="phone-container" onclick="copyPhoneNumber()">
+                    Phone: <span id="phone-number" class="mono">+1 (905) 865 1777</span>
+                </span>
+            </div>
         </div>
     </footer>
 
     <script>
+        // Copy Phone Number
         function copyPhoneNumber() {
-            const phoneElement = document.getElementById("phone-container");
-            const phoneNumber = document.getElementById("phone-number").innerText;
-            navigator.clipboard.writeText(phoneNumber).then(() => {
-                phoneElement.classList.add("copied");
-                setTimeout(() => phoneElement.classList.remove("copied"), 2000);
+            const el = document.getElementById('phone-container');
+            navigator.clipboard.writeText('+1 (905) 865 1777').then(() => {
+                el.classList.add('copied');
+                setTimeout(() => el.classList.remove('copied'), 2000);
             });
         }
 
-        var canvas = document.querySelector("#unity-canvas");
+        // Nav toggle
+        const toggle = document.getElementById('nav-toggle');
+        const mobile = document.getElementById('nav-mobile');
+        if (toggle) toggle.addEventListener('click', () => mobile.classList.toggle('hidden'));
 
+        // Highlight Active Link
+        const path = window.location.pathname;
+        document.querySelectorAll('.nav-link').forEach(a => {
+            const href = a.getAttribute('href').replace('./', '');
+            if (path.endsWith(href)) {
+                a.classList.add('nav-active', 'font-semibold');
+            }
+        });
+
+        // Unity Banner Handler
+        var canvas = document.querySelector("#unity-canvas");
         function unityShowBanner(msg, type) {
             var warningBanner = document.querySelector("#unity-warning");
             function updateBannerVisibility() {
@@ -167,9 +264,9 @@
             var div = document.createElement('div');
             div.innerHTML = msg;
             warningBanner.appendChild(div);
-            if (type == 'error') div.style = 'background: red; padding: 10px;';
+            if (type == 'error') div.style = 'background: rgba(239, 68, 68, 0.9); padding: 8px 12px; margin-top: 5px; border-radius: 6px; font-size: 11px;';
             else {
-                if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+                if (type == 'warning') div.style = 'background: rgba(245, 158, 11, 0.9); padding: 8px 12px; margin-top: 5px; border-radius: 6px; font-size: 11px; color: black;';
                 setTimeout(function() {
                     warningBanner.removeChild(div);
                     updateBannerVisibility();
@@ -178,6 +275,7 @@
             updateBannerVisibility();
         }
 
+        // Unity Build Configuration
         var buildUrl = "UnityBuild/Build";
         var loaderUrl = buildUrl + "/New folder (5).loader.js";
         var config = {
@@ -192,19 +290,16 @@
             showBanner: unityShowBanner,
         };
 
+        // Responsiveness adjustment
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             var meta = document.createElement('meta');
             meta.name = 'viewport';
             meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
             document.getElementsByTagName('head')[0].appendChild(meta);
-            document.querySelector("#unity-container").className = "unity-mobile";
-            canvas.className = "unity-mobile";
-        } else {
-            canvas.style.width = "800px";
-            canvas.style.height = "450px";
+            document.querySelector("#unity-container").className = "unity-mobile w-full";
         }
 
-        document.querySelector("#unity-loading-bar").style.display = "block";
+        document.querySelector("#unity-loading-bar").style.display = "flex";
 
         var script = document.createElement("script");
         script.src = loaderUrl;
@@ -216,9 +311,11 @@
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
                     unityInstance.SetFullscreen(1);
                 };
+                
+                // Add Unload utilities
                 var quit = document.createElement("button");
-                quit.style = "margin-left: 5px; background-color: lightgray; border: none; padding: 5px; cursor: pointer";
-                quit.innerHTML = "Unload";
+                quit.className = "btn-secondary text-white px-2.5 py-1 rounded-md text-[10px] font-semibold ml-2 hover:bg-red-500/10 hover:border-red-500/30 transition";
+                quit.innerHTML = "<i class='fas fa-power-off mr-1'></i> Unload Game";
                 document.querySelector("#unity-build-title").appendChild(quit);
                 quit.onclick = () => {
                     unityInstance.Quit().then(() => {
@@ -234,33 +331,6 @@
         };
 
         document.body.appendChild(script);
-    </script>
-
-    <script>
-        // mobile nav & active link handlers
-        (function(){
-            const toggle = document.getElementById('nav-toggle');
-            const mobile = document.getElementById('nav-mobile');
-            if (toggle && mobile) {
-                toggle.addEventListener('click', () => {
-                    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-                    toggle.setAttribute('aria-expanded', String(!expanded));
-                    mobile.classList.toggle('hidden');
-                });
-            }
-
-            const path = window.location.pathname;
-            document.querySelectorAll('.nav-link').forEach(a => {
-                if (path.includes(a.getAttribute('href'))) {
-                    a.classList.add('text-blue-400', 'font-bold', 'border-b-2', 'border-blue-400');
-                }
-            });
-
-            window.addEventListener('scroll', () => {
-                const navDiv = document.querySelector('nav > div');
-                if (navDiv) navDiv.classList.toggle('shadow-xl', window.scrollY > 10);
-            });
-        })();
     </script>
 </body>
 </html>

@@ -425,7 +425,7 @@
 
             <!-- Mario -->
             <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.1s">
-                <div class="overflow-hidden bg-gradient-to-br from-blue-950 to-gray-900 flex items-center justify-center h-48">
+                <div class="overflow-hidden bg-gradient-to-br from-blue-950 to-gray-900 flex items-center justify-center h-48 proj-img-wrap">
                     <div class="flex flex-col items-center gap-3 text-center">
                         <div class="w-20 h-20 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center">
                             <i class="fas fa-gamepad text-red-400 text-3xl"></i>
@@ -444,10 +444,183 @@
                         <span class="tech-badge">Pygame</span>
                         <span class="tech-badge">Game Design</span>
                     </div>
-                    <div class="flex gap-3">
+                    <div class="flex gap-3 flex-wrap">
                         <a href="https://github.com/yabdelsa2862-lab/Mario" target="_blank"
                            class="btn-white text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
                             <i class="fab fa-github"></i> Repository
+                        </a>
+                        <a href="https://github.com/yabdelsa2862-lab/Mario/archive/refs/heads/main.zip"
+                           download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VEXcode Clawbot -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.15s">
+                <div class="proj-img-wrap overflow-hidden bg-gray-900">
+                    <img src="./images/clawbot.jpg" alt="VEXcode Clawbot" class="proj-img">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">VEXcode Clawbot</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A robotics program designed to coordinate autonomous and driver-controlled movements for a V5 Clawbot. Implements wheel encoders, bumper switches, and ultrasonic sensors to enable precise navigation, obstacle avoidance, and object retrieval tasks.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">C++ / Python</span>
+                        <span class="tech-badge">VEX V5 Robotics</span>
+                        <span class="tech-badge">Hardware Integration</span>
+                        <span class="tech-badge">Sensor Logic</span>
+                    </div>
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="https://github.com/yabdelsa2862-lab/VEXcode-Project-Clawbot" target="_blank"
+                           class="btn-white text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fab fa-github"></i> Repository
+                        </a>
+                        <a href="https://github.com/yabdelsa2862-lab/VEXcode-Project-Clawbot/archive/refs/heads/main.zip"
+                           download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Negus's Room -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.2s">
+                <div class="overflow-hidden bg-gradient-to-br from-emerald-950/40 to-gray-900 flex items-center justify-center h-48 proj-img-wrap">
+                    <div class="flex flex-col items-center gap-3 text-center">
+                        <div class="w-20 h-20 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center">
+                            <i class="fas fa-school text-emerald-400 text-3xl"></i>
+                        </div>
+                        <p class="mono text-emerald-400 text-xs">Classroom Navigation Simulation</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Negus's Room Navigation</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A robot navigation program developed in VEXcode for a virtual or physical classroom simulation. Coordinates sensors and movement routines to autonomously map, traverse, and solve custom classroom-mapped grids.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">VEXcode VR</span>
+                        <span class="tech-badge">C++ / Python</span>
+                        <span class="tech-badge">Pathfinding</span>
+                        <span class="tech-badge">Grid Mapping</span>
+                    </div>
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="https://github.com/yabdelsa2862-lab/Negus-s-room" target="_blank"
+                           class="btn-white text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fab fa-github"></i> Repository
+                        </a>
+                        <a href="https://github.com/yabdelsa2862-lab/Negus-s-room/archive/refs/heads/main.zip"
+                           download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Snake in R -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.25s">
+                <div class="overflow-hidden bg-gradient-to-br from-violet-950/40 to-gray-900 flex items-center justify-center h-48 proj-img-wrap">
+                    <div class="flex flex-col items-center gap-3 text-center">
+                        <div class="w-20 h-20 rounded-2xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center">
+                            <i class="fas fa-chart-line text-purple-400 text-3xl"></i>
+                        </div>
+                        <p class="mono text-purple-400 text-xs">Algorithmic ML in R</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">AI Snake using R</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        An implementation of the classic Snake game utilizing R, focusing on training an AI agent. Evaluates algorithmic decision-making, pathfinding, or reward functions (such as Q-learning) to optimize the snake's survival rate and score, showcasing R's statistics and charting capabilities.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">R Language</span>
+                        <span class="tech-badge">Machine Learning</span>
+                        <span class="tech-badge">Reinforcement Learning</span>
+                        <span class="tech-badge">Data Vis</span>
+                    </div>
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="https://github.com/yabdelsa2862-lab/AISNAKE-R" target="_blank"
+                           class="btn-white text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fab fa-github"></i> Repository
+                        </a>
+                        <a href="https://github.com/yabdelsa2862-lab/AISNAKE-R/archive/refs/heads/main.zip"
+                           download class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Presentation -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.3s">
+                <div class="overflow-hidden bg-gradient-to-br from-blue-900/30 to-violet-950/30 flex items-center justify-center h-48 proj-img-wrap">
+                    <div class="flex flex-col items-center gap-3 text-center">
+                        <div class="w-20 h-20 rounded-2xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center">
+                            <i class="fas fa-file-powerpoint text-blue-400 text-3xl"></i>
+                        </div>
+                        <p class="mono text-blue-400 text-xs">AI Career Analysis</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">AI / ML Engineer Career Presentation</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A research-backed presentation examining the required skills, mathematical foundations, salary scales, and future outlook of AI / ML engineering in the age of automation. Includes scenario analysis for AI augmentation and junior-role obsolescence.
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">Research</span>
+                        <span class="tech-badge">PowerPoint</span>
+                        <span class="tech-badge">AI Outlook</span>
+                        <span class="tech-badge">ML Careers</span>
+                    </div>
+                    <p class="text-white/40 text-xs mb-3">Downloads slide deck presentation (PPTX format, 56 KB) to your device.</p>
+                    <div class="flex gap-3">
+                        <a href="./assets/Career presentation.pptx" download
+                           class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download PPTX
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pac-Man DFD -->
+            <div class="glass-card rounded-2xl overflow-hidden reveal" style="transition-delay:0.35s">
+                <div class="overflow-hidden bg-gradient-to-br from-rose-950/30 to-gray-900 flex items-center justify-center h-48 proj-img-wrap">
+                    <div class="flex flex-col items-center gap-3 text-center">
+                        <div class="w-20 h-20 rounded-2xl bg-rose-500/15 border border-rose-500/25 flex items-center justify-center">
+                            <i class="fas fa-diagram-project text-rose-400 text-3xl"></i>
+                        </div>
+                        <p class="mono text-rose-400 text-xs">Pac-Man DFD System Design</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Pac-Man System Architecture (DFD)</h3>
+                    <p class="text-white/55 text-sm leading-relaxed mb-4">
+                        A detailed, multi-level Data Flow Diagram (DFD) mapping the system architecture of Pac-Man. Outlines inputs, database storage read/writes (score logs), collision logic (position comparison), and state transitions for ghost entities (chase, scatter, frightened modes).
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="tech-badge">System Design</span>
+                        <span class="tech-badge">Data Flow Diagram</span>
+                        <span class="tech-badge">Technical Writing</span>
+                        <span class="tech-badge">State Machines</span>
+                    </div>
+                    <p class="text-white/40 text-xs mb-3">Opens the DFD document (PDF format, 370 KB) in a new tab, or download it directly.</p>
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="./assets/DFD.pdf" target="_blank"
+                           class="btn-blue text-white px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2">
+                            <i class="fas fa-external-link-alt"></i> Open PDF DFD
+                        </a>
+                        <a href="./assets/DFD.pdf" download
+                           class="btn-green px-5 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
+                           onclick="triggerDownload(event)">
+                            <i class="fas fa-download"></i> Download PDF
                         </a>
                     </div>
                 </div>
